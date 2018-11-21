@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <Title>Battleships</Title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <img src="" height="100" width="100">
+        <div>THE NAME OF THE GAME</div>
+    </header>
+
+    <section id="controls">
+        <div class="control_element">
+            <span class="button" id="play_button" onclick="">Play</span>
+        </div>
+        <div class="control_element">
+            <span class="button" id="create_button" onclick="">Create a new game</span>
+        </div>
+        <div class="control_element">
+            <span class="button" id="connect_button" onclick="">Conect to the existing game</span>
+        </div>
+        <div class="control_element" id="id_output">
+            <p>This is your game ID: <span id="game_id">NaN</span></p>
+            <p>Share it with your friend!</p>
+            <div class="start_game_button" onclick="">Start the game!</div>
+        </div>
+        <div class="control_element" id="id_input">
+            <p>Please enter the game ID</p>
+            <form>
+                <input type="text" placeholder="Game ID">
+            </form>
+            <div class="start_game_button" onclick="">Start the game!</div>
+        </div>
+        <div>Waiting for the second player...</div>
+    </section>
+</body>
+
+</html>
