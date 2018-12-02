@@ -1,0 +1,66 @@
+* {
+    overflow: hidden;
+    text-align: center;
+}
+
+
+header img {
+    margin-top: 100px;
+}
+
+header div {
+    margin-top: 30px;
+    font-size: 200%
+}
+
+#controls {
+    margin-top: 200px;
+}
+
+.control_element_play,
+.control_element_connection,
+.control_element_id_in,
+.control_element_id_out {
+    font-size: 150%;
+    padding: 10px;
+
+}
+
+.control_element_play {
+    margin-top: 20px;
+}
+
+.control_element_connection,
+.control_element_id_in,
+.control_element_id_out {
+    display: none;
+}
+
+#play_button,
+#create_button,
+#connect_button,
+.start_game_button {
+    padding: 0px 20px;
+    border: 2px solid red;
+    border-radius: 30px;
+}
+
+#play_button:hover,
+#create_button:hover,
+#connect_button:hover,
+.start_game_button:hover {
+    cursor: pointer;
+    padding: 2px 30px;
+    transition: 0.3s;
+}
+
+.control_element_start {
+    padding: 5px;
+}
+
+#waiting {
+    display: none;
+    padding: 0px 20px;
+    border: 2px solid red;
+    border-radius: 30px;
+}
