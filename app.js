@@ -30,13 +30,35 @@ wss.on("connection", function (ws) {
     ws.send(currentGame.id);
     console.log("Player %s of a type %s is connected to the room %s", con.id, playerType, currentGame.id);
 
-    ws.on("message", function incoming(message) {
-        console.log("[LOG] " + message);
-    });
-
     if (currentGame.hasTwoConnectedPlayers()) {
         currentGame = new Game(++initialized);
     }
+
+    con.on("message", function incoming(message) {
+
+        let gameObj = websockets[con.id];
+        let isPlayerA = (gameObj.playerA == con) ? true : false;
+
+        if (isPlayerA) {
+
+            console.log("[LOG] Is player A");
+
+
+            if (gameObj.hasTwoConnectedPlayers()) {
+                gameObj.playerB.send(message);
+            }
+
+        } else {
+
+            console.log("[LOG] is player B");
+
+            gameObj.playerA.send(message);
+        }
+    });
+
+    con.on("close", function () {
+        console.log("[STATUS] Player %s is disconnected", con.id);
+    });
 });
 
 server.listen(port);

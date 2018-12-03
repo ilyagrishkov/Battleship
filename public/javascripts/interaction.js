@@ -1,4 +1,4 @@
-var msg = "I have joined!"
+var msg = "I have joined!";
 
 function play() {
     $('.control_element_play').stop().fadeOut(700).queue(function (next) {
@@ -12,13 +12,7 @@ function createGame() {
         $('.control_element_id_out').fadeIn(700);
         next();
     });
-    var socket = new WebSocket("ws://localhost:3000");
-    socket.onmessage = function (event) {
-        document.getElementById("game_id").innerHTML = event.data;
-    }
-    socket.onopen = function () {
-        socket.send(msg);
-    };
+    initializeConnection();
 }
 
 function connectToGame() {
@@ -27,3 +21,22 @@ function connectToGame() {
         next();
     });
 }
+
+function startGame() {
+
+    $("body").fadeOut(500).queue(function (next) {
+        $("body").load("gameScreen.html");
+        $(".style_splash").remove();
+        next();
+    }).queue(function (next) {
+        $("body").fadeIn(500);
+        next();
+    });
+};
+
+
+
+function testing() {
+    gs.updateGame("Text");
+
+};

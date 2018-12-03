@@ -2,7 +2,6 @@ var game = function (gameID) {
     this.playerA = null;
     this.playerB = null;
     this.id = gameID;
-    this.wordToGuess = null;
     this.gameState = "0 JOINT";
 };
 

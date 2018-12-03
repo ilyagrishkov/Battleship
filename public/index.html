@@ -4,8 +4,11 @@
 <head>
     <Title>Battleships</Title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="javascripts/splash_screen_script.js"></script>
-    <link href="stylesheets/splash_screen_style.css" type="text/css" rel="stylesheet" />
+    <script src="javascripts/interaction.js"></script>
+    <script src="javascripts/connection.js"></script>
+    <span class="style_splash">
+        <link href="stylesheets/splash_screen_style.css" type="text/css" rel="stylesheet" /></span>
+    <!-- Testing -->
 </head>
 
 <body>
@@ -29,14 +32,14 @@
             <p>This is your game ID:</p>
             <p id="game_id">ID is being generated...</p>
             <p>Share it with your friend!</p>
-            <div class="control_element_start"><span class="start_game_button" onclick="">Start the game!</span></div>
+            <div class="control_element_start"><span class="start_game_button" onclick="startGame()">Start the game!</span></div>
         </div>
         <div class="control_element_id_in" id="id_input">
             <p>Please enter the game ID</p>
             <form>
                 <input type="text" placeholder="Game ID">
             </form>
-            <div class="control_element_start"><span class="start_game_button" onclick="">Start the game!</span></div>
+            <div class="control_element_start"><span class="start_game_button" onclick="startGame()">Start the game!</span></div>
         </div>
         <div id="waiting">Waiting for the second player...</div>
     </section>
