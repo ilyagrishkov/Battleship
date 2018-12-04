@@ -41,7 +41,7 @@ wss.on("connection", function (ws) {
 
         if (isPlayerA) {
 
-            console.log("[LOG] Is player A");
+            console.log("[LOG] Player A sent message: %s", message);
 
 
             if (gameObj.hasTwoConnectedPlayers()) {
@@ -50,14 +50,14 @@ wss.on("connection", function (ws) {
 
         } else {
 
-            console.log("[LOG] is player B");
+            console.log("[LOG] Player B sent message: %s", message);
 
             gameObj.playerA.send(message);
         }
     });
 
     con.on("close", function () {
-        console.log("[STATUS] Player %s is disconnected", con.id);
+        console.log("[STATUS] Player %s in room %s is disconnected", playerType, websockets[con.id].id);
     });
 });
 
