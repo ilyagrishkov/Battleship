@@ -6,13 +6,8 @@ var numberOfShots = 0;
 function GameState(socket) {
 
     this.MAX_CELLS_DESTROYED = 20;
-    this.room_number = 0;
     this.number_of_destroyed_cells_by_A = 0;
     this.number_of_destroyed_cells_by_B = 0;
-
-    this.setRoomNumber = function (nRoom) {
-        this.room_number = nRoom;
-    }
 
     this.whoWon = function () {
 
@@ -20,7 +15,7 @@ function GameState(socket) {
 
             return "A";
         }
-        if (this.number_of_destroyed_cells_by_A == this.MAX_CELLS_DESTROYED) {
+        if (this.number_of_destroyed_cells_by_B == this.MAX_CELLS_DESTROYED) {
 
             return "B";
         }
