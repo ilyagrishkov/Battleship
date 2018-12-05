@@ -54,8 +54,9 @@ function initializeConnection() {
         console.log(event.data);
 
     };
+
     socket.onopen = function () {
-        gs.playersConnected++;
+
     };
 
 }

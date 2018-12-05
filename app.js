@@ -31,10 +31,12 @@ wss.on("connection", function (ws) {
     console.log("Player %s of a type %s is connected to the room %s", con.id, playerType, currentGame.id);
 
     if (currentGame.hasTwoConnectedPlayers()) {
+
         var playerOne = websockets[con.id - 1];
         var playerTwo = websockets[con.id];
         playerOne.playerA.send("2 JOINT");
         playerTwo.playerB.send("2 JOINT");
+
         currentGame = new Game(++initialized);
     }
 

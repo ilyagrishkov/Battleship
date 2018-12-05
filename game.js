@@ -5,18 +5,7 @@ var game = function (gameID) {
     this.gameState = "0 JOINT";
 };
 
-game.prototype.transitionStates = {};
-game.prototype.transitionStates["0 JOINT"] = 0;
-game.prototype.transitionStates["1 JOINT"] = 1;
-game.prototype.transitionStates["2 JOINT"] = 2;
-
-game.prototype.isValidTState = function (s) {
-    return (s in game.prototype.transitionStates);
-};
-
 game.prototype.setStatus = function (w) {
-
-    console.assert(typeof w == "string", "%s: Expecting a string, got a %s", arguments.callee.name, typeof w);
 
     if (!(this.gameState === w)) {
         this.gameState = w;
@@ -33,15 +22,10 @@ game.prototype.hasTwoConnectedPlayers = function () {
 
 game.prototype.addPlayer = function (p) {
 
-    console.assert(p instanceof Object, "%s: Expecting an object (WebSocket), got a %s", arguments.callee.name, typeof p);
-
     if (this.gameState != "0 JOINT" && this.gameState != "1 JOINT") {
         return new Error("Invalid call to addPlayer, current state is %s", this.gameState);
     }
 
-    /*
-     * revise the game state
-     */
     var error = this.setStatus("1 JOINT");
 
     if (error instanceof Error) {
