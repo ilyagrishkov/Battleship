@@ -31,13 +31,18 @@ function GameState(socket) {
     }
 
     this.beginGame = function(){
+        htmlBeginGame();
+
         
     }
 
+    this.clientEndTurn = function(){
+        htmlSetReadyLights(false);
+    }
 
-    this.changeTurn = function(){
-        playerTurn = !playerTurn;
-        switchLights(clientTurn);
+    this.clientTurn = function(){
+        clientTurn = true;
+        htmlSetReadyLights(clientTurn);
     }
 
  
@@ -68,11 +73,11 @@ function initializeConnection() {
             waitForSecondPlayer();
         }
 
-        if(event.data == "endTurn"){
+        if(event.data == "yourTurn"){
             gs.changeTurn();
         }
 
-        if(event.data == "bothReady"){
+        if(event.data == "bothReady"){ 
             gs.beginGame();
         }
         var field = event.data;
@@ -93,8 +98,14 @@ function initializeConnection() {
 
 function shoot(coordinate_x, coordinate_y) {
     //Here should be shot validation code
+    gs.clientEndTurn();
+
     var s = coordinate_x + coordinate_y;
     gs.updateGame(s);
 };
+
+function setClientReady(){
+    gs.clientReady();
+}
 
 
