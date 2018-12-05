@@ -3,18 +3,38 @@ var game = function (gameID) {
     this.playerB = null;
     this.id = gameID;
     this.gameState = "0 JOINT";
-};
+
+}
+
+
 
 game.prototype.setStatus = function (w) {
 
     if (!(this.gameState === w)) {
         this.gameState = w;
-        console.log("[STATUS] %s", this.gameState);
+        console.log("[LOG] %s", this.gameState);
 
     } else {
         return new Error("Impossible status change from %s to %s", this.gameState, w);
     }
 };
+
+
+game.prototype.addReady = function () {
+
+    if (this.gameState != "1 READY" && this.gameState != "2 READY") {
+        this.setStatus("1 READY");
+        console.log("Current status is %s", this.gameState);
+    } else {
+        this.setStatus("2 READY");
+    }
+
+
+}
+
+game.prototype.bothPlayersReady = function () {
+    return (this.gameState == "2 READY");
+}
 
 game.prototype.hasTwoConnectedPlayers = function () {
     return (this.gameState == "2 JOINT");

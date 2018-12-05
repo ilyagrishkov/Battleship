@@ -31,39 +31,59 @@ wss.on("connection", function (ws) {
     ws.send(currentGame.id);
     console.log("[STATUS] Player %s of a type %s is connected to the room %s", con.id, playerType, currentGame.id);
 
-    //var playerOne = websockets[con.id - 1];
-    var playerTwo = websockets[con.id];
+    var player = websockets[con.id];
 
     if (currentGame.hasTwoConnectedPlayers()) {
 
-        playerTwo.playerA.send("2 JOINT");
-        playerTwo.playerB.send("2 JOINT");
+        player.playerA.send("2 JOINT");
+        player.playerB.send("2 JOINT");
 
         currentGame = new Game(++initialized);
     } else {
 
-        playerTwo.playerA.send("1 JOINT");
+        player.playerA.send("1 JOINT");
     }
 
     con.on("message", function incoming(message) {
 
-        let gameObj = websockets[con.id];
-        let isPlayerA = (gameObj.playerA == con) ? true : false;
+        if (message == "Ready") {
+            let gameObj = websockets[con.id];
+            let isPlayerA = (gameObj.playerA == con) ? true : false;
+            if (isPlayerA) {
 
-        if (isPlayerA) {
+                gameObj.addReady();
+                console.log("[LOG] %s", gameObj.gameState);
 
-            console.log("[LOG] Player A sent message: %s", message);
+            } else {
+                gameObj.addReady();
+                console.log("[LOG] %s", gameObj.gameState);
 
-
-            if (gameObj.hasTwoConnectedPlayers()) {
-                gameObj.playerB.send(message);
             }
 
+            if (gameObj.bothPlayersReady()) {
+                gameObj.playerA.send("BOTH READY");
+                gameObj.playerB.send("BOTH READY");
+            }
         } else {
 
-            console.log("[LOG] Player B sent message: %s", message);
+            let gameObj = websockets[con.id];
+            let isPlayerA = (gameObj.playerA == con) ? true : false;
 
-            gameObj.playerA.send(message);
+            if (isPlayerA) {
+
+                console.log("[LOG] Player A sent message: %s", message);
+
+
+                if (gameObj.hasTwoConnectedPlayers()) {
+                    gameObj.playerB.send(message);
+                }
+
+            } else {
+
+                console.log("[LOG] Player B sent message: %s", message);
+
+                gameObj.playerA.send(message);
+            }
         }
     });
 
@@ -74,7 +94,7 @@ wss.on("connection", function (ws) {
         let gameObj = websockets[con.id];
         let isPlayerA = (gameObj.playerA == con) ? true : false;
 
-        if (gameObj.hasTwoConnectedPlayers()) {
+        if (gameObj.hasTwoConnectedPlayers() || gameObj.gameState == "1 READY" || gameObj.bothPlayersReady()) {
 
             if (isPlayerA) {
 
