@@ -40,8 +40,15 @@ function initializeConnection() {
 
     socket.onmessage = function (event) {
 
+        if (event.data == "otherPlayerDisconnected") {
+            socket.close();
+        }
+
         if (event.data == "2 JOINT") {
-            window.setTimeout(startGame(), 500);
+            startGame();
+        } else if (event.data == "1 JOINT") {
+            console.log("[LOG] Test passed")
+            waitForSecondPlayer();
         }
 
         var field = event.data;

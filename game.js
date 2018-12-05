@@ -20,6 +20,10 @@ game.prototype.hasTwoConnectedPlayers = function () {
     return (this.gameState == "2 JOINT");
 }
 
+game.prototype.deletePlayer = function () {
+    this.gameState = "1 JOINT";
+}
+
 game.prototype.addPlayer = function (p) {
 
     if (this.gameState != "0 JOINT" && this.gameState != "1 JOINT") {

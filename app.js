@@ -7,7 +7,7 @@ var port = 3000;
 var app = express();
 
 var initialized = 1;
-var websockets = {};
+var websockets = [];
 
 app.use(express.static(__dirname + "/public"));
 
@@ -20,6 +20,7 @@ const wss = new websocket.Server({
 var currentGame = new Game(initialized);
 var connectionID = 0;
 
+
 wss.on("connection", function (ws) {
 
     let con = ws;
@@ -28,16 +29,20 @@ wss.on("connection", function (ws) {
     websockets[con.id] = currentGame;
 
     ws.send(currentGame.id);
-    console.log("Player %s of a type %s is connected to the room %s", con.id, playerType, currentGame.id);
+    console.log("[STATUS] Player %s of a type %s is connected to the room %s", con.id, playerType, currentGame.id);
+
+    //var playerOne = websockets[con.id - 1];
+    var playerTwo = websockets[con.id];
 
     if (currentGame.hasTwoConnectedPlayers()) {
 
-        var playerOne = websockets[con.id - 1];
-        var playerTwo = websockets[con.id];
-        playerOne.playerA.send("2 JOINT");
+        playerTwo.playerA.send("2 JOINT");
         playerTwo.playerB.send("2 JOINT");
 
         currentGame = new Game(++initialized);
+    } else {
+
+        playerTwo.playerA.send("1 JOINT");
     }
 
     con.on("message", function incoming(message) {
@@ -64,6 +69,35 @@ wss.on("connection", function (ws) {
 
     con.on("close", function () {
         console.log("[STATUS] Player %s in room %s is disconnected", playerType, websockets[con.id].id);
+
+        var message = "otherPlayerDisconnected";
+        let gameObj = websockets[con.id];
+        let isPlayerA = (gameObj.playerA == con) ? true : false;
+
+        if (gameObj.hasTwoConnectedPlayers()) {
+
+            if (isPlayerA) {
+
+                if (gameObj.playerB != null) {
+
+                    gameObj.playerB.send(message);
+                }
+                gameObj.playerA = null;
+                connectionID--;
+
+            } else {
+
+
+                if (gameObj.playerA != null) {
+                    gameObj.playerA.send(message);
+                }
+                gameObj.playerB = null;
+                connectionID--;
+            }
+        } else {
+            currentGame = new Game(initialized);
+            connectionID--;
+        }
     });
 });
 
