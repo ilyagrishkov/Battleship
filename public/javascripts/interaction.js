@@ -17,6 +17,14 @@ function startGame() {
     })
 };
 
+function disconnection() {
+    $("#disconnection").fadeIn(500);
+    $("#disconnected_screen_background").fadeIn(500).delay(3000).queue(function () {
+
+        window.location.replace("/index.html");
+    });
+};
+
 function shoot(coordinate_x, coordinate_y) {
     //Here should be shot validation code
     var s = coordinate_x + coordinate_y;

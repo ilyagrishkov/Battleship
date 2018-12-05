@@ -36,6 +36,7 @@ function initializeConnection() {
     socket.onmessage = function (event) {
 
         if (event.data == "otherPlayerDisconnected") {
+            disconnection();
             socket.close();
         }
 
