@@ -17,8 +17,4 @@ function startGame() {
     })
 };
 
-function shoot(coordinate_x, coordinate_y) {
-    //Here should be shot validation code
-    var s = coordinate_x + coordinate_y;
-    gs.updateGame(s);
-};
+
