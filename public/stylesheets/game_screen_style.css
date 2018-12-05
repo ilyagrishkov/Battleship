@@ -1,4 +1,8 @@
-.boatListGroup{
+* {
+    overflow: hidden;
+}
+
+.boatListGroup {
 
     height: 80%;
     width: 25%;
@@ -7,23 +11,23 @@
 
     float: inline;
 
-    position : absolute;
-    bottom:10%;
+    position: absolute;
+    bottom: 10%;
     left: 2%;
 
 }
 
-.boatList{
+.boatList {
 
     height: auto;
     width: auto;
 
-     padding: 10%;
-     border: 5px solid pink;
+    padding: 10%;
+    border: 5px solid pink;
 }
 
 .gameGridGroup {
-    margin : auto;
+    margin: auto;
     float: inline;
 
     height: 100%;
@@ -36,12 +40,12 @@
     border: solid black;
 }
 
-.gameGridDivs{
+.gameGridDivs {
     height: 45%;
 
     display: grid;
 
-    grid-template-columns: repeat(11, auto) ;
+    grid-template-columns: repeat(11, auto);
 
     background-color: blue;
 
@@ -51,22 +55,22 @@
 
 }
 
-.gameGridHeader{
+.gameGridHeader {
 
 
-    border: solid darkcyan 1px ;
-
-    background-color: aquamarine;
-}
-
-.gameGridCell{
-
-    border: solid darkcyan 1px ; 
+    border: solid darkcyan 1px;
 
     background-color: aquamarine;
 }
 
-.readyLightsGroup{
+.gameGridCell {
+
+    border: solid darkcyan 1px;
+
+    background-color: aquamarine;
+}
+
+.readyLightsGroup {
     position: absolute;
     bottom: 13%;
     left: 65%;
@@ -75,13 +79,13 @@
 
     height: 75%;
 
-    border: solid  black
+    border: solid black
 }
 
-.readyLight{
+.readyLight {
 
-    position:relative;
-    top:0%;
+    position: relative;
+    top: 0%;
 
     padding-top: 350%;
     padding-bottom: 500%;
@@ -90,15 +94,41 @@
 
 
 
-.readyButton{
-    position:absolute;
+.readyButton {
+    position: absolute;
     bottom: 50%;
     left: 80%;
 }
 
-.textInfoBox{
-    position:absolute;
-    top:10%;
-    right:10%;
+.textInfoBox {
+    position: absolute;
+    top: 10%;
+    right: 10%;
 }
 
+#disconnection_container {
+    position: fixed;
+    width: 100%;
+    top: 20px;
+    text-align: center;
+    z-index: 11;
+}
+
+#disconnection {
+    font-size: 300%;
+    font-weight: 300%;
+    display: none;
+    z-index: 12;
+}
+
+#disconnected_screen_background {
+    top: 0;
+    left: 0;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    display: none;
+    position: fixed;
+    z-index: 10;
+}

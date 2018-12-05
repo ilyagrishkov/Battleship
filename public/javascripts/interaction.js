@@ -17,4 +17,12 @@ function startGame() {
     })
 };
 
+function disconnection() {
+    $("#disconnection").fadeIn(500);
+    $("#disconnected_screen_background").fadeIn(500).delay(3000).queue(function () {
+
+        window.location.replace("/index.html");
+    });
+};
+
 
