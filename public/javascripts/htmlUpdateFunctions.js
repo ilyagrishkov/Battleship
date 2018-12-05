@@ -1,5 +1,5 @@
 function setReadyLights(clientTurn){
     if(clientTurn){
-        document.getElementById()
+        document.getElementById(readyLightClient)
     }
 }
