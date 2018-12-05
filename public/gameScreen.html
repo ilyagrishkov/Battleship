@@ -327,13 +327,16 @@
     </section>
 
     <div class="readyLightsGroup">
-        <div class="readyLight" id="readyLightClient">
-            <img height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Button_Icon_Green.svg/200px-Button_Icon_Green.svg.png">
+
+        <div class="readyLight" >
+            <img id="readyLightOther" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
         </div>
 
-        <div class="readyLight" id="readyLightOther">
-            <img height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
+        <div class="readyLight">
+            <img  id="readyLightClient" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
         </div>
+
+        
     </div>
 
     <div class="textInfoBox" id="topRightBox">
@@ -342,8 +345,10 @@
         <div id="playerTurnLabel"> Turn: <span id="playerTurnSpan"></span>
         </div>
     </div>
-    <div class="readyButton" id="quitReadyButtons">
-        <button id="quitReadyButton" onclick="gs.clientReady()">Ready!</button>
+
+    <div class="readyButton" id="readyButton">
+        <button id="turnReadyButton" onclick="setClientReady()">Ready!</button>
+
     </div>
     <div id="disconnected_screen_background"></div>
     <div id="disconnection_container">

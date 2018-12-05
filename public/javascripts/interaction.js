@@ -15,6 +15,8 @@ function startGame() {
         $(".style_splash").remove();
         $("body").stop().fadeIn(500);
     })
+
+    loadGrid();
 };
 
 function disconnection() {
@@ -25,4 +27,6 @@ function disconnection() {
     });
 };
 
+function loadGrid(){
 
+}
