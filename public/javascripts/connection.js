@@ -32,14 +32,14 @@ function GameState(socket) {
     }
 
 
-    this.beginGame = function(){
+    this.beginGame = function () {
         htmlBeginGame();
 
-        
+
 
     }
 
-    this.clientEndTurn = function(){
+    this.clientEndTurn = function () {
         htmlSetReadyLights(false);
     }
 
@@ -48,19 +48,20 @@ function GameState(socket) {
         playerTurn = !playerTurn;
         switchLights(clientTurn);
 
-    this.clientTurn = function(){
-        clientTurn = true;
-        htmlSetReadyLights(clientTurn);
+        this.clientTurn = function () {
+            clientTurn = true;
+            htmlSetReadyLights(clientTurn);
+
+        }
+
+
 
     }
-
-
-
-
     this.updateGame = function (s) {
         socket.send(s);
     }
 }
+
 
 
 function initializeConnection() {
@@ -88,28 +89,29 @@ function initializeConnection() {
 
         if (event.data == "bothReady") {
 
-        if(event.data == "yourTurn"){
-            gs.changeTurn();
-        }
+            if (event.data == "yourTurn") {
+                gs.changeTurn();
+            }
 
-        if(event.data == "bothReady"){ 
+            if (event.data == "bothReady") {
 
-            gs.beginGame();
-        }
-        var field = event.data;
+                gs.beginGame();
+            }
+            var field = event.data;
 
-        shotFields.push(event.data);
-        numberOfShots++;
+            shotFields.push(event.data);
+            numberOfShots++;
 
-        $("." + field).css('background-color', 'black');
+            $("." + field).css('background-color', 'black');
+
+        };
 
         console.log(event.data);
 
-    };
+        socket.onopen = function () {
 
-    socket.onopen = function () {
-
-    };
+        };
+    }
 }
 
 function shoot(coordinate_x, coordinate_y) {
@@ -121,8 +123,6 @@ function shoot(coordinate_x, coordinate_y) {
 };
 
 
-function setClientReady(){
+function setClientReady() {
     gs.clientReady();
 }
-
-
