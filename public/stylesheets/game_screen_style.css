@@ -1,1 +1,108 @@
+.boatListGroup{
+
+    height: 80%;
+    width: 25%;
+
+    border-style: dotted;
+
+    float: inline;
+
+    position : absolute;
+    bottom:10%;
+    left: 2%;
+
+}
+
+.boatList{
+
+    height: auto;
+    width: auto;
+
+     padding: 10%;
+     border: 5px solid pink;
+}
+
+.gameGridGroup {
+    margin : auto;
+    float: inline;
+
+    height: 100%;
+    width: 30%;
+
+    position: absolute;
+    top: 0%;
+    left: 34%;
+
+    border: solid black;
+}
+
+.gameGridDivs{
+    height: 45%;
+
+    display: grid;
+
+    grid-template-columns: repeat(11, auto) ;
+
+    background-color: blue;
+
+    padding: 5px;
+
+    border: solid salmon;
+
+}
+
+.gameGridHeader{
+
+
+    border: solid darkcyan 1px ;
+
+    background-color: aquamarine;
+}
+
+.gameGridCell{
+
+    border: solid darkcyan 1px ; 
+
+    background-color: aquamarine;
+}
+.gameGrid{
+
+}
+
+
+.readyLightsGroup{
+    position: absolute;
+    bottom: 13%;
+    left: 65%;
+
+    text-align: center;
+
+    height: 75%;
+
+    border: solid  black
+}
+
+.readyLight{
+
+    position:relative;
+    top:0%;
+
+    padding-top: 350%;
+    padding-bottom: 500%;
+}
+
+
+
+
+.readyButton{
+    position:absolute;
+    bottom: 50%;
+    left: 80%;
+}
+
+.textInfoBox{
+    position:absolute;
+    top:10%;
+    right:10%;
+}
 
