@@ -40,45 +40,21 @@ function initializeConnection() {
 
     socket.onmessage = function (event) {
 
+        if (event.data == "2 JOINT") {
+            window.setTimeout(startGame(), 500);
+        }
+
         var field = event.data;
 
         shotFields.push(event.data);
         numberOfShots++;
 
         $("." + field).css('background-color', 'black');
-        //
-        //        var top = +field - 10;
-        //        var bottom = +field + 10;
-        //        var left = +field - 1;
-        //        var right = +field + 1;
-        //
-        //        if (field < 10) {
-        //            field = "0" + field.toString();
-        //        }
-        //        if (left < 9) {
-        //            left = "0" + left.toString();
-        //        }
-        //        if (right < 10) {
-        //            right = "0" + right.toString();
-        //        }
-        //
-        //        $("." + field).css('background-color', 'black');
-        //
-        //        if (!(shotFields.includes(left.toString()))) {
-        //            $("." + left).css('background-color', 'red');
-        //        }
-        //        if (!(shotFields.includes(right.toString()))) {
-        //            $("." + right).css('background-color', 'red');
-        //        }
-        //        if (!(shotFields.includes(top.toString()))) {
-        //            $("." + top).css('background-color', 'red');
-        //        }
-        //        if (!(shotFields.includes(bottom.toString()))) {
-        //            $("." + bottom).css('background-color', 'red');
-        //        }
+
         console.log(event.data);
 
     };
+
     socket.onopen = function () {
 
     };

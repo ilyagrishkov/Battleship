@@ -8,7 +8,6 @@
     <script src="javascripts/connection.js"></script>
     <span class="style_splash">
         <link href="stylesheets/splash_screen_style.css" type="text/css" rel="stylesheet" /></span>
-    <!-- Testing -->
 </head>
 
 <body>
@@ -21,25 +20,6 @@
     <section id="controls">
         <div class="control_element_play">
             <span class="button" id="play_button" onclick="play()">Play</span>
-        </div>
-        <div class="control_element_connection">
-            <span class="button" id="create_button" onclick="createGame()">Create a new game</span>
-        </div>
-        <div class="control_element_connection">
-            <span class="button" id="connect_button" onclick="connectToGame()">Connect to the existing game</span>
-        </div>
-        <div class="control_element_id_out" id="id_output">
-            <p>This is your game ID:</p>
-            <p id="game_id">ID is being generated...</p>
-            <p>Share it with your friend!</p>
-            <div class="control_element_start"><span class="start_game_button" onclick="startGame()">Start the game!</span></div>
-        </div>
-        <div class="control_element_id_in" id="id_input">
-            <p>Please enter the game ID</p>
-            <form>
-                <input type="text" placeholder="Game ID">
-            </form>
-            <div class="control_element_start"><span class="start_game_button" onclick="startGame()">Start the game!</span></div>
         </div>
         <div id="waiting">Waiting for the second player...</div>
     </section>
