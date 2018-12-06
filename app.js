@@ -10,6 +10,8 @@ var initialized = 1;
 var websockets = [];
 
 app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public/images"));
+app.use(express.static(__dirname + "/public/fonts"));
 
 var server = http.createServer(app);
 
