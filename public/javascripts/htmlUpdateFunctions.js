@@ -9,13 +9,13 @@ function htmlSetReadyLights(clientTurn){
         document.getElementById("readyLightClient").src=greenLight;
         document.getElementById("readyLightOther").src=redLight;
     }
-    else{
+    else if(clientTurn == false){
         document.getElementById("readyLightClient").src=redLight;
-        document.getElementById("readyLightClient").src=greenLight;
+        document.getElementById("readyLightOther").src=greenLight;
     }
 }
 
-function htmlPlayerReady(){
+function htmlClientReady(){
     document.getElementById("turnReadyButton").disabled = true;
 
     document.getElementById("readyLightClient").src=greenLight;
@@ -23,5 +23,24 @@ function htmlPlayerReady(){
 }
 
 function htmlBeginGame(){
-    document.getElementById("gameGridOther").disabled = false;
+    //stuff
+}
+
+function htmlYourTurn(){
+    $("#gameGridDivsOther").find('*').attr("disabled", false);
+    htmlSetReadyLights(true);
+}
+
+function htmlEndTurn(){
+    disableChildren($("#gameGridDivsOther")); //try to disable all children when this is called
+    htmlSetReadyLights(false);
+
+}
+
+function disableChildren(element){
+    var children = element.children();
+
+    $.each(children, function(){
+        $(this).attr('disabled',true);
+    });
 }

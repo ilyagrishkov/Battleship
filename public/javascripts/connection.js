@@ -25,7 +25,7 @@ function GameState(socket) {
     }
     this.clientReady = function () {
 
-        // htmlPlayerReady();
+        htmlClientReady();
 
         // insert here code to send player ready to server
         this.updateGame("Ready");
@@ -34,29 +34,16 @@ function GameState(socket) {
 
     this.beginGame = function () {
         htmlBeginGame();
-
-
-
     }
 
     this.clientEndTurn = function () {
-        htmlSetReadyLights(false);
+        htmlEndTurn();
     }
 
-
-    this.changeTurn = function () {
-        playerTurn = !playerTurn;
-        switchLights(clientTurn);
-
-        this.clientTurn = function () {
-            clientTurn = true;
-            htmlSetReadyLights(clientTurn);
-
-        }
-
-
+    this.yourTurn = function(){
 
     }
+
     this.updateGame = function (s) {
         socket.send(s);
     }
@@ -89,22 +76,24 @@ function initializeConnection() {
 
         if (event.data == "bothReady") {
 
-            if (event.data == "yourTurn") {
-                gs.changeTurn();
-            }
-
-            if (event.data == "bothReady") {
-
-                gs.beginGame();
-            }
-            var field = event.data;
+            
+            /*var field = event.data;
 
             shotFields.push(event.data);
             numberOfShots++;
 
-            $("." + field).css('background-color', 'black');
+            $("." + field).css('background-color', 'black');*/
 
         };
+
+        if (event.data == "bothReady") {
+
+            gs.beginGame();
+        }
+
+        if (event.data == "yourTurn") {
+            gs.yourTurn();
+        }
 
         console.log(event.data);
 

@@ -15,9 +15,14 @@ function startGame() {
         $("body").load("gameScreen.html");
         $(".style_splash").remove();
         $("body").stop().fadeIn(500);
+        
+        console.log("Finished transition");
+
+        loadGrid();
+        console.log("Loaded grid")
     })
 
-    loadGrid();
+    
 };
 
 function disconnection() {
@@ -25,8 +30,16 @@ function disconnection() {
     $("#disconnected_screen_background").fadeIn(500).delay(3000).queue(function () {
         window.location.replace("/index.html");
     });
-};
+};S
 
-function loadGrid() {
-
+function loadGrid() { //loads divs through nested for-loops
+    var otherCell = $('<div class="gameGridCell"></div>')
+    for(var i = 1; i <11; i++){
+        console.log("Adding row");
+        $("#gameGridDivsClient").append('<div class = "gameGridCell"></div>'); //cant access div by ID
+        console.log($("#gameGridOther").text());
+        for(var k = 0; k < 10; k++){
+            $("#gameGridDivsClient").append(otherCell);
+        }
+    }
 }
