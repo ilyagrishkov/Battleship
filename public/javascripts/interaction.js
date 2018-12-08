@@ -16,10 +16,7 @@ function startGame() {
         $(".style_splash").remove();
         $("body").stop().fadeIn(500);
         
-        console.log("Finished transition");
-
         loadGrid();
-        console.log("Loaded grid")
     })
 
     
@@ -36,8 +33,8 @@ function loadGrid() { //loads divs through nested for-loops
     var otherCell = $('<div class="gameGridCell"></div>')
     for(var i = 1; i <11; i++){
         console.log("Adding row");
-        $("#gameGridDivsClient").append('<div class = "gameGridCell"></div>'); //cant access div by ID
-        console.log($("#gameGridOther").text());
+        $("#gameGridDivsClient").append('<div class = "gameGridCell"></div>'); //cant access div by IDe
+        console.log(window.print());
         for(var k = 0; k < 10; k++){
             $("#gameGridDivsClient").append(otherCell);
         }

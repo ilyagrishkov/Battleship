@@ -7,6 +7,8 @@ function GameState(socket) {
 
     this.clientTurn = false;
 
+    this.shipCells = [];
+
     this.MAX_CELLS_DESTROYED = 20;
     this.number_of_destroyed_cells_by_A = 0;
     this.number_of_destroyed_cells_by_B = 0;
@@ -27,7 +29,7 @@ function GameState(socket) {
 
         htmlClientReady();
 
-        // insert here code to send player ready to server
+        //Check enough boats are available
         this.updateGame("Ready");
     }
 
@@ -46,6 +48,14 @@ function GameState(socket) {
 
     this.updateGame = function (s) {
         socket.send(s);
+    }
+
+    this.deployShip = function(cellID){
+        htmlSetBoatCell(cellID);
+
+        console.log("Deployed ship on: " + cellID);
+
+        this.shipCells.push(cellID);
     }
 }
 
@@ -76,7 +86,6 @@ function initializeConnection() {
 
         if (event.data == "bothReady") {
 
-            
             /*var field = event.data;
 
             shotFields.push(event.data);
@@ -114,4 +123,10 @@ function shoot(coordinate_x, coordinate_y) {
 
 function setClientReady() {
     gs.clientReady();
+}
+
+function deployShip(cellID){
+   
+    gs.deployShip(cellID);
+    
 }

@@ -44,3 +44,8 @@ function disableChildren(element){
         $(this).attr('disabled',true);
     });
 }
+
+function htmlSetBoatCell(cellID){
+    var cell = document.getElementById(cellID);
+    cell.style.backgroundColor = "red";
+}
