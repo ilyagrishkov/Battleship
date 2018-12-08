@@ -45,6 +45,17 @@ function disableChildren(element){
     });
 }
 
+function htmlPlaceShip(cellID, orientation,boatType){
+    var cells = gs.getCellsForBoat(cellID,orientation,boatType);
+    cells.forEach(function(element){
+        var cellName = element+"c";
+        if(element<10){
+            cellName = "0"+cellName;
+        }
+        htmlSetBoatCell(cellName);
+    })
+}
+
 function htmlSetBoatCell(cellID){
     document.getElementById(cellID).style.backgroundColor = "red";
 }

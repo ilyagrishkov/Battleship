@@ -82,37 +82,40 @@ function GameState(socket) {
             alert("You have already placed that ship! Select a new one");
         }
         else{
-            var shipLength = 0;
-            switch(boatType){
-                case 0:
-                    shipLength = 5;
-                    break;
-                case 1:
-                    shipLength = 4;
-                    break;
-                case 2:
-                    shipLength = 3;
-                    break;
-                case 3:
-                    shipLength = 3;
-                    break;
-                case 4:
-                    shipLength = 2;
-                    break;    
-                default:
-                    break;
-            }
-
-            if(gs.canPlaceShip(cellID, shipLength, boatOrientation)){
-                
+            if(gs.canPlaceShip(cellID, boatOrientation,boatType)){
+                //htmlplaceship
+                //add ships and cells to corresponding arrays
             }
             
         }
     }
 
-    this.canPlaceShip = function(cellID,length,orientation){
+    this.getCellsForBoat = function(cellID,orientation,boatType){ // returns the cells which a boat would occupy
+        
+        var result = new Array();
 
-        id = parseInt(parsecellID.substring(0,2))
+        id = parseInt(cellID.substring(0,2))
+
+       var shipLength = 0;
+        switch(boatType){
+            case 0: //carrier
+                shipLength = 5;
+                break;
+            case 1: //battleship
+                shipLength = 4;
+                break;
+            case 2: //submarine
+                shipLength = 3;
+                break;
+            case 3: //destroyer
+                shipLength = 3;
+                break;
+            case 4: //smallship
+                shipLength = 2;
+                break;    
+            default:
+                break;
+        }
 
         var displacement = 0;
         switch(orientation){
@@ -130,9 +133,33 @@ function GameState(socket) {
                 break;
         }
 
-        for(var i = id; i < length; i += displacement){
-            if(i/10 > 9 || i%10 > 9 || gs.shipCells.includes(i)){ //checks for space directly on the path
+        for(var i = id; i < length*displacement; i += displacement){
+            result.push(i);
+        }
+        return result;
+    }
+
+    this.canPlaceShip = function(cellID,orientation,boatType){
+
+       var possibleShipCells = gs.getCellsForBoat(cellID,orientation,boatType);
+
+       possibleShipCells.forEach(function(cell){
+            if(cell/10 > 9 || cell%10 > 9 || gs.shipCells.includes(cell)){ //checks for space directly on the path
                 return false;
+            }
+            if(!gs.isFreeAroundCell(cell)){
+                return false;    
+            }
+       });
+        return true;
+    }
+
+    this.isFreeAroundCell = function(cellID){ // checks around a given integer cellID and returns false if any of the surrounding cells contain a ship
+        for(var i = -1; i<=1; i++){
+            for(var j = -1; j<=1;j++){
+                if(gs.shipCells.includes(cellID+(i+10*j))){
+                    return false;
+                }
             }
         }
         return true;
