@@ -46,6 +46,9 @@ function disableChildren(element){
 }
 
 function htmlSetBoatCell(cellID){
-    var cell = document.getElementById(cellID);
-    cell.style.backgroundColor = "red";
+    document.getElementById(cellID).style.backgroundColor = "red";
+}
+
+function htmlUndoBoatCell(cellID){
+    document.getElementById(cellID).style.backgroundColor = "aquamarine";
 }

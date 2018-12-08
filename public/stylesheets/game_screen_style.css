@@ -3,116 +3,160 @@
     src: url('/fonts/Quicksand-Regular.woff');
 }
 
-body {
-    font-family: Quicksand;
-}
-
 * {
     overflow: hidden;
 }
 
-.boatListGroup {
+body {
+    font-family: Quicksand;
+    margin: 0;
+}
 
-    height: 80%;
-    width: 25%;
-
-    border-style: dotted;
-
-    float: inline;
-
-    position: absolute;
-    bottom: 10%;
-    left: 2%;
+.container {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    min-width: 100%;
+    position: fixed;
 
 }
 
+.container::before {
+    background-image: url(/images/michael-afonso-419936-unsplash.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.65;
+    z-index: -2;
+}
+
+.boatListGroup {
+    text-align: left;
+    height: 80%;
+    width: 25%;
+    border: 3px dotted white;
+    position: absolute;
+}
+
+.boatListGroup::after {
+    background-color: white;
+    opacity: 0.3;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#boatListClient {
+    bottom: 10%;
+    left: 2%;
+}
+
+#boatListOther {
+    bottom: 10%;
+    right: 2%;
+}
+
 .boatList {
-
-    height: auto;
-    width: auto;
-
+    font-size: 150%;
     padding: 10%;
-    border: 5px solid pink;
 }
 
 .gameGridGroup {
     margin: auto;
-    float: inline;
-
+    width: 360px;
     height: 100%;
-    width: 30%;
-
-    position: absolute;
-    top: 0%;
-    left: 34%;
-
-    border: solid black;
 }
 
+
 .gameGridDivs {
-    height: 45%;
-
+    margin-top: 20px;
     display: grid;
-
     grid-template-columns: repeat(11, auto);
-
-    background-color: blue;
-
     padding: 5px;
 
-    border: solid salmon;
+}
 
+#gameGridOther {
+    margin-bottom: 20px;
 }
 
 .gameGridHeader {
+    width: 30px;
+    height: 30px;
+    border: 1px solid grey;
+    text-align: center;
+    float: left;
+    background-color: darkgrey;
+    opacity: 0.80;
 
-
-    border: solid darkcyan 1px;
-
-    background-color: aquamarine;
 }
 
 .gameGridCell {
 
-    border: solid darkcyan 1px;
-
-    background-color: aquamarine;
+    border: 1px solid grey;
+    background-color: white;
+    opacity: 0.55;
+    width: 30px;
+    height: 30px;
+    float: left;
 }
 
-.readyLightsGroup {
-    position: absolute;
-    bottom: 13%;
-    left: 65%;
+.gameGridCell:hover {
 
-    text-align: center;
-
-    height: 75%;
-
-    border: solid black
+    background-color: grey;
+    opacity: 0.5;
 }
 
 .readyLight {
 
-    position: relative;
-    top: 0%;
-
-    padding-top: 350%;
-    padding-bottom: 500%;
+    float: right;
 }
 
-
-
-
 .readyButton {
+    width: 105px;
+    height: 35px;
+    background-color: white;
+    opacity: 0.7;
+    font-size: 200%;
+    border: 2px solid white;
+    border-radius: 100px;
+    padding: 5px 15px;
     position: absolute;
-    bottom: 50%;
-    left: 80%;
+    top: 0;
+    left: 8%;
+    transform: translate(0, 50%);
+}
+
+.readyButton:hover {
+    cursor: pointer;
+    width: 150px;
+    transition: 0.3s;
+}
+
+#emoji {
+    font-size: 90%;
 }
 
 .textInfoBox {
-    position: absolute;
-    top: 10%;
-    right: 10%;
+    background-color: white;
+    opacity: 0.7;
+    border: 2px solid white;
+    border-radius: 100px;
+    padding: 5px 80px 5px 40px;
+    font-size: 250%;
+
 }
 
 #disconnection_container {
