@@ -2,73 +2,66 @@
     <div class="container">
         <span>
             <link href="stylesheets/game_screen_style.css" type="text/css" rel="stylesheet" /></span>
-            <section id="testID">
+        <section id="testID">
 
-                    <div class="boatListGroup" id="boatListClient">
-                        <div class="boatList">You
-                            <div class="readyLight">
-                                <img id="readyLightClient" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
-                            </div>
-
-                            <div class = "boat" id= "Battleship" onclick=""></div>
-                            <div class = "boat" id= "Carrier"></div>
-                            <div class = "boat" id= "Submarine"></div>
-                            <div class = "boat" id= "Destroyer"></div>
-                            <div class = "boat" id= "SmallShip"></div>
-
-                        </div>
+            <div class="boatListGroup" id="boatListClient">
+                <div class="boatList">You
+                    <div class="readyLight">
+                        <img id="readyLightClient" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
                     </div>
-        
-                    <div class="boatListGroup" id="boatListOther">
-                        <div class="boatList">Other player
-                            <div class="readyLight">
-                                <img id="readyLightOther" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
-                            </div>
-                        </div>
+
+                    <div class="boat" id="Battleship" onclick=""></div>
+                    <div class="boat" id="Carrier"></div>
+                    <div class="boat" id="Submarine"></div>
+                    <div class="boat" id="Destroyer"></div>
+                    <div class="boat" id="SmallShip"></div>
+
+                </div>
+            </div>
+
+            <div class="boatListGroup" id="boatListOther">
+                <div class="boatList">Other player
+                    <div class="readyLight">
+                        <img id="readyLightOther" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
                     </div>
-        
-                </section>
+                </div>
+            </div>
+
+        </section>
         <section>
             <div class="gameGridGroup">
 
                 <div class="gameGrid" id="gameGridOther">
 
-                    <div class="gameGridDivs" id ="gameGridDivsOther">
-            
+                    <div class="gameGridDivs" id="gameGridDivsOther">
+
                         <div class="gameGridHeader"></div>
-            
+
                     </div>
                 </div>
 
-                        <div class="textInfoBox" id="topRightBox">
-                                <div id="playerTurnLabel"> Turn: <span id="playerTurnSpan">⇧</span></div>
-                        </div>
+                <div class="textInfoBox" id="topRightBox">
+                    <div id="playerTurnLabel"> Turn: <span id="playerTurnSpan">⇧</span></div>
+                </div>
 
                 <div class="gameGrid" id="gameGridClient">
 
-                    <div class="gameGridDivs" id = "gameGridDivsClient" onload="shoot('20','18')">
+                    <div class="gameGridDivs" id="gameGridDivsClient" onload="shoot('20','18')">
 
-                        <div class="gameGridHeader"></div>                
+                        <div class="gameGridHeader"></div>
 
                     </div>
                 </div>
-                
+
             </div>
         </section>
 
-        <div class="textInfoBox" id="topRightBox">
-            Text info box
-
-            <div id="playerTurnLabel"> Turn: <span id="playerTurnSpan"></span>
-            </div>
-        </div>
-
         <div class="readyButton" id="readyButton" onclick="setClientReady()">Ready! <span id="emoji">👍</span></div>
 
-        </div>
-        <div id="disconnected_screen_background"></div>
-        <div id="disconnection_container">
-            <div id="disconnection">Your enemy has disconnected!</div>
-        </div>
+    </div>
+    <div id="disconnected_screen_background"></div>
+    <div id="disconnection_container">
+        <div id="disconnection">Your enemy has disconnected!</div>
+    </div>
     </div>
 </body>

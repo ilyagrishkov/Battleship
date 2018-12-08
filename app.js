@@ -2,16 +2,24 @@ var express = require("express");
 var http = require("http");
 var websocket = require("ws");
 var Game = require("./game");
+var gameStatus = require("./statTracker");
 
 var port = 3000;
 var app = express();
 
-var initialized = 1;
 var websockets = [];
 
+app.set("view engine", "ejs");
+
 app.use(express.static(__dirname + "/public"));
-app.use(express.static(__dirname + "/public/images"));
-app.use(express.static(__dirname + "/public/fonts"));
+
+app.get("/", (req, res) => {
+    res.render("splash.ejs", {
+        gamesInitialized: gameStatus.gamesInitialized,
+        gamesAborted: gameStatus.gamesAborted,
+        gamesCompleted: gameStatus.gamesCompleted
+    });
+});
 
 var server = http.createServer(app);
 
@@ -19,7 +27,7 @@ const wss = new websocket.Server({
     server
 });
 
-var currentGame = new Game(initialized);
+var currentGame = new Game(gameStatus.gamesInitialized);
 var connectionID = 0;
 
 
@@ -40,7 +48,7 @@ wss.on("connection", function (ws) {
         player.playerA.send("2 JOINT");
         player.playerB.send("2 JOINT");
 
-        currentGame = new Game(++initialized);
+        currentGame = new Game(gameStatus.gamesInitialized++);
     } else {
 
         player.playerA.send("1 JOINT");
@@ -92,11 +100,14 @@ wss.on("connection", function (ws) {
     con.on("close", function () {
         console.log("[STATUS] Player %s in room %s is disconnected", playerType, websockets[con.id].id);
 
+
         var message = "otherPlayerDisconnected";
         let gameObj = websockets[con.id];
         let isPlayerA = (gameObj.playerA == con) ? true : false;
 
         if (gameObj.hasTwoConnectedPlayers() || gameObj.gameState == "1 READY" || gameObj.bothPlayersReady()) {
+
+
 
             if (isPlayerA) {
 
@@ -105,6 +116,7 @@ wss.on("connection", function (ws) {
                     gameObj.playerB.send(message);
                 }
                 gameObj.playerA = null;
+                gameStatus.gamesAborted++;
                 connectionID--;
 
             } else {

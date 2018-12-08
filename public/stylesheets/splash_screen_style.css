@@ -74,3 +74,11 @@ body {
     background-color: white;
     opacity: 0.4;
 }
+
+footer {
+    position: fixed;
+    bottom: 2%;
+    color: white;
+    right: 2%;
+    opacity: 0.8;
+}
