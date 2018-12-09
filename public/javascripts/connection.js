@@ -11,7 +11,7 @@ function GameState(socket) {
     this.clientTurn = false;
 
     this.shipCells = new Array(); //stores occupied cells by id in integer format; eg: id = 01 stored as 1, id=90 stored as 90
-    this.placedShips = new Array(5); //keeps track of which of the 5 ships have been placed
+    this.placedShips = new Array(); //keeps track of which of the 5 ships have been placed
 
     this.MAX_CELLS_DESTROYED = 20;
     this.number_of_destroyed_cells_by_A = 0;
@@ -59,7 +59,7 @@ function GameState(socket) {
         socket.send(s);
     }
 
-    this.deployShip = function(cellID){ // TOODO: check for space, check neighbouring ships ,deploy ship     
+    /*this.deployShip = function(cellID){ // TOODO: check for space, check neighbouring ships ,deploy ship     
 
         if(gs.shipCells.includes(cellID)){
             gs.undoShip(cellID);
@@ -75,14 +75,14 @@ function GameState(socket) {
                 gs.shipCells.push(cellID);
             }
         }   
-    }
+    }*/
 
     this.deployShip = function(cellID){
-        if(placedShips.includes(boatType)){
+        if(gs.placedShips.includes(gs.boatType)){
             alert("You have already placed that ship! Select a new one");
         }
         else{
-            if(gs.canPlaceShip(cellID, boatOrientation,boatType)){
+            if(gs.canPlaceShip(cellID, gs.boatOrientation,gs.boatType)){
                 //htmlplaceship
                 //add ships and cells to corresponding arrays
             }
@@ -196,17 +196,6 @@ function initializeConnection() {
         if (event.data == "endTurn") {
             gs.changeTurn();
         }
-
-        if (event.data == "bothReady") {
-
-            /*var field = event.data;
-
-            shotFields.push(event.data);
-            numberOfShots++;
-
-            $("." + field).css('background-color', 'black');*/
-
-        };
 
         if (event.data == "bothReady") {
 
