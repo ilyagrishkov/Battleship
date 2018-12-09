@@ -109,7 +109,7 @@ function GameState(socket) {
                     if(element%10 == 0 && i == -1){//stops color on left if in first column
                         continue;
                     }
-                    if(cell < 99 && cell > 0){//fix miss coming from side
+                    if(cell < 100 && cell > -1){//fix miss coming from side
                             htmlMissCell(gs.cellIntToID(cell));
                     }
                     if(cell%10 ==9&&j==1){//stops loop if reached right side
@@ -274,7 +274,7 @@ function GameState(socket) {
                     if(element%10 == 0 && i == -1){//stops color on left if in first column
                         continue;
                     }
-                    if(cell < 99 && cell > 0){//fix miss coming from side
+                    if(cell < 100 && cell > -1){//fix miss coming from side
                             htmlMissCell(gs.cellIntToID(cell)+ "c");
                     }
                     if(cell%10 ==9&&j==1){//stops loop if reached right side
@@ -396,12 +396,15 @@ function GameState(socket) {
 
                 var cell = cellID + (i + 10 * j);
 
-                if(cellID%10 == 0 && i == -1){//stops color on left if in first column
+                if(cellID%10 == 0 && i == -1){//stops check on left if in first column
                     continue;
                 }
    
-                if (gs.shipCells.includes(cell)) {
-                    return false;
+                if(cell> 0 && cell<99){ //Fixed thanks to a bug ;)
+                    if (gs.shipCells.includes(cell)) {
+                        console.log("Returned false checking: " + cell)
+                        return false;
+                    }
                 }
             }
             if(cell%10 ==9&&j==1){//stops loop if reached right side
