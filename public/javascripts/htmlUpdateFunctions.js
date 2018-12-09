@@ -58,6 +58,13 @@ function htmlPlaceShip(cells){
     })
 }
 
+function htmlSunkShip(cellIDs){
+    cellIDs.forEach(function(element){
+        console.log("Setting cell sunk:" + element);
+        document.getElementById(element).style.backgroundColor = "green";
+    })
+}
+
 function htmlDisableShip(boatType){
     var boatID;
     switch(boatType){
@@ -79,7 +86,7 @@ function htmlDisableShip(boatType){
         default:
             break;
     }
-    document.getElementById(boatID).disabled = true;
+    document.getElementById(boatID).onclick = null;
 }
 
 function htmlSetBoatCell(cellID){
@@ -97,5 +104,13 @@ function htmlHitCell(cellID){
 
 function htmlMissCell(cellID){
     document.getElementById(cellID).style.backgroundColor = "blue"; //add disable element to all this
+
+}
+
+function htmlVictory(){
+
+}
+
+function htmlLost(){
 
 }

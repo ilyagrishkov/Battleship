@@ -10,6 +10,7 @@ function GameState(socket) {
     this.shipCells = new Array(17); //stores occupied cells by id in integer format; eg: id = 01 stored as 1, id=90 stored as 90
     this.placedShips = new Array(); //keeps track of which of the 5 ships have been placed
     this.hitCells = new Array(17);
+    this.boatsSunk = 0;
 
     this.MAX_CELLS_DESTROYED = 20;
     this.number_of_destroyed_cells_by_A = 0;
@@ -59,34 +60,72 @@ function GameState(socket) {
         console.log("Received shot on:" + cellID);
         console.log(gs.shipCells); 
         if(gs.shipCells.includes(cellID)){
-            htmlHitCell(cellID+"c");
+            htmlHitCell(gs.cellIntToID(cellID)+"c");
+            gs.hitCells[gs.shipCells.indexOf(cellID)]=-1;
             gs.updateGame("hit"+cellID);
+
+            if(gs.checkSunk(cellID)){ //if sunk
+                console.log("boat sunk");
+                var boat = gs.getBoatFromCellID(gs.shipCells,cellID);
+                var cellIDs = new Array(); //array of cell ids for htmlFunction
+                
+                boat.forEach(function(element){
+                    cellIDs.push(gs.cellIntToID(element)+"c");
+                });
+    
+                htmlSunkShip(cellIDs);
+                gs.sendSunk(boat);
+
+                gs.boatsSunk++;
+                if(gs.boatsSunk == 5){
+                    gs.allBoatsSunk();
+                }
+            }
 
         }
         else{
-            htmlMissCell(cellID+"c");
+            htmlMissCell(gs.cellIntToID(cellID)+"c");
             gs.updateGame("miss"+cellID);
         }
     }
     this.handleHit = function(cell){
         console.log("Handling hit on: " + cell)
+
         cellID = gs.cellIntToID(cell)
-        console.log("CellID: "+cellID );
         htmlHitCell(cellID);
+
     }
     this.handleMiss = function(cell){
         console.log("Handling miss on: " + cell)
         cellID = gs.cellIntToID(cell)
         htmlMissCell(cellID);
     }
-    this.handleSunk = function(cell){
-        console.log("Handling sunk")
+    
+    this.handleSunk = function(cells){
+        var cellIDs = new Array();
+        cells.forEach(function(element){
+            cellIDs.push(gs.cellIntToID(element));
+        })
+        htmlSunkShip(cellIDs);
     }
+
+    this.handleGG = function(){
+        htmlVictory();
+    }
+
     this.cellIntToID = function(cell){
         if(cell<10){
             return "0"+cell;
         }
         return cell;
+    }
+
+    this.sendSunk = function(cells){
+        var message = new Object();
+        message.id="sunk";
+        message.boat = cells;
+        JSONmessage = JSON.stringify(message);
+        gs.updateGame(JSONmessage)
     }
 
     this.updateGame = function (s) {
@@ -187,6 +226,87 @@ function GameState(socket) {
     }
 
     this.checkSunk = function(cellID){
+        var result = true;
+        var boat = gs.getBoatFromCellID(gs.hitCells,cellID);
+
+        console.log("Checking boat:" + boat);
+
+        boat.forEach(function(element){
+            if(element!=-1){
+                result = false;
+            }
+        });
+
+        return result;
+    }
+
+    this.allBoatsSunk = function(){
+        gs.updateGame("gg");
+        htmlLost();
+    }
+
+
+
+
+    this.getBoat = function(array,boat){//returns part of shipCells array with the corresponding boat
+        var result = new Array();
+        var startIndex = -1;
+        var endIndex = -1;
+        switch (boat) {
+            case 0: //carrier
+                startIndex = 0;
+                endIndex = 4;
+                break;
+            case 1: //battleship
+                startIndex = 5;
+                endIndex = 8;
+                break;
+            case 2: //submarine
+                startIndex = 9;
+                endIndex = 11;
+                break;  
+            case 3: //destroyer
+                startIndex = 12;
+                endIndex = 14;
+                break;
+            case 4: //smallship
+                startIndex = 15;
+                endIndex = 16;
+                break;  
+            default:
+                break;
+        }
+        for(var i = startIndex; i < endIndex+1;i++){
+            result.push(array[i]);
+        }
+    
+        return result;
+    }
+    
+    this.getBoatFromCellID = function(array,cellID){
+        var result;
+        var cellIndex = gs.shipCells.indexOf(cellID);
+
+        console.log("Finding boat from cell: " +cellID+ "index:" +gs.shipCells.indexOf(cellID));
+
+        if(cellIndex <5){
+            console.log("Clicked on carrier");
+            result = gs.getBoat(array,0);
+        }
+        else if(cellIndex <9){
+            result = gs.getBoat(array,1);
+        }
+        else if(cellIndex < 12){
+            result = gs.getBoat(array,2);
+        }
+        else if(cellIndex<15){
+            result = gs.getBoat(array,3);
+        }
+        else if(cellIndex<17){
+            result = gs.getBoat(array,4);
+        }
+
+        return result;
     }
 
     this.canPlaceShip = function (cells, boatOrientation) {
@@ -255,37 +375,41 @@ function initializeConnection() {
             socket.close();
         }
 
-        if (event.data == "2 JOINT") {
+        else if (event.data == "2 JOINT") {
             startGame();
         } else if (event.data == "1 JOINT") {
             waitForSecondPlayer();
         }
 
 
-        if (event.data == "endTurn") {
+        else if (event.data == "endTurn") {
             gs.changeTurn();
         }
 
-        if (event.data == "bothReady") {
+        else if (event.data == "bothReady") {
 
             gs.beginGame();
         }
 
-        if (event.data == "yourTurn") {
+        else if (event.data == "yourTurn") {
             gs.yourTurn();
         }
 
-        if(event.data.substring(0,4) == "shot" ){
+        else if(event.data.substring(0,4) == "shot" ){
             gs.handleShot(parseInt(event.data.substring(4)));
         }
-        if(event.data.substring(0,3) == "hit"){
+        else if(event.data.substring(0,3) == "hit"){
             gs.handleHit(parseInt(event.data.substring(3)));
         }
-        if(event.data.substring(0,4) == "miss" ){
+        else if(event.data.substring(0,4) == "miss" ){
             gs.handleMiss(parseInt(event.data.substring(4)));
         }
-        if(event.data.substring(0,4)=="sunk"){
-            gs.handleSunk(event.data.substring(4))
+        else if(event.data == "gg"){
+            gs.handleGG();
+        }
+        else if(JSON.parse(event.data).id == "sunk"){
+            console.log("received sunk");
+            gs.handleSunk(JSON.parse(event.data).boat);
         }
 
         console.log("Received:" + event.data);
