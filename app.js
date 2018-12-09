@@ -71,8 +71,8 @@ wss.on("connection", function (ws) {
             }
 
             if (gameObj.bothPlayersReady()) {
-                gameObj.playerA.send("BOTH READY");
-                //gameObj.playerB.send("BOTH READY");
+                gameObj.playerA.send("yourTurn");
+                gameObj.playerB.send("endTurn");
             }
         } else {
 
