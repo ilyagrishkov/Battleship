@@ -61,8 +61,8 @@ function htmlPlaceShip(cells){
 function htmlSunkShip(cellIDs){
     cellIDs.forEach(function(element){
         console.log("Setting cell sunk:" + element);
-        document.getElementById(element).style.backgroundColor = "green";
-    })
+        document.getElementById(element).style.backgroundColor = "red";
+    });
 }
 
 function htmlDisableShip(boatType){
@@ -99,7 +99,7 @@ function htmlUndoBoatCell(cellID){
 }
 
 function htmlHitCell(cellID){
-    document.getElementById(cellID).style.backgroundColor = "red";
+    document.getElementById(cellID).style.backgroundColor = "green";
 }
 
 function htmlMissCell(cellID){

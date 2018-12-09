@@ -67,13 +67,10 @@ function GameState(socket) {
             if(gs.checkSunk(cellID)){ //if sunk
                 console.log("boat sunk");
                 var boat = gs.getBoatFromCellID(gs.shipCells,cellID);
-                var cellIDs = new Array(); //array of cell ids for htmlFunction
                 
-                boat.forEach(function(element){
-                    cellIDs.push(gs.cellIntToID(element)+"c");
-                });
     
-                htmlSunkShip(cellIDs);
+                gs.sinkShip(boat);
+
                 gs.sendSunk(boat);
 
                 gs.boatsSunk++;
@@ -105,8 +102,17 @@ function GameState(socket) {
         var cellIDs = new Array();
         cells.forEach(function(element){
             cellIDs.push(gs.cellIntToID(element));
+            for(var i = -1;i<2;i++){//set miss loop
+                for(var j = -1; j<2;j++){
+                    htmlMissCell(gs.cellIntToID(element+(i+j*10)));
+                }
+            }
         })
+
+        
         htmlSunkShip(cellIDs);
+
+        
     }
 
     this.handleGG = function(){
@@ -238,6 +244,18 @@ function GameState(socket) {
         });
 
         return result;
+    }
+
+    this.sinkShip = function(boat){
+
+        var cellIDs = new Array(); //array of cell ids for htmlFunction
+                
+        boat.forEach(function(element){
+            cellIDs.push(gs.cellIntToID(element)+"c");
+        });
+
+
+        htmlSunkShip(cellIDs);
     }
 
     this.allBoatsSunk = function(){
