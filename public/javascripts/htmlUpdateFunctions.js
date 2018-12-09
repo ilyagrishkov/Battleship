@@ -80,7 +80,14 @@ function htmlPlaceShip(cells) {
     })
 }
 
-function htmlDisableShip(boatType) {
+function htmlSunkShip(cellIDs){
+    cellIDs.forEach(function(element){
+        console.log("Setting cell sunk:" + element);
+        document.getElementById(element).style.backgroundColor = "red";
+    });
+}
+
+function htmlDisableShip(boatType){
     var boatID;
     switch (boatType) {
         case 0: //carrier
@@ -101,7 +108,7 @@ function htmlDisableShip(boatType) {
         default:
             break;
     }
-    document.getElementById(boatID).disabled = true;
+    document.getElementById(boatID).onclick = null;
 }
 
 function htmlSetBoatCell(cellID) {
@@ -113,11 +120,19 @@ function htmlUndoBoatCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "aquamarine";
 }
 
-function htmlHitCell(cellID) {
-    document.getElementById(cellID).style.backgroundColor = "red";
+function htmlHitCell(cellID){
+    document.getElementById(cellID).style.backgroundColor = "green";
 }
 
 function htmlMissCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "blue"; //add disable element to all this
+
+}
+
+function htmlVictory(){
+
+}
+
+function htmlLost(){
 
 }
