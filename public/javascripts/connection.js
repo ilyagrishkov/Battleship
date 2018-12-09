@@ -34,7 +34,7 @@ function GameState(socket) {
     }
     this.clientReady = function () {
 
-        if (gs.shipCells.length == 17) {
+        if (gs.placedShips.length==5) {
             htmlClientReady();
             //Check enough boats are available
             this.updateGame("Ready")
@@ -105,9 +105,22 @@ function GameState(socket) {
             cellIDs.push(gs.cellIntToID(element));
             for(var i = -1;i<2;i++){//set miss loop
                 for(var j = -1; j<2;j++){
-                    htmlMissCell(gs.cellIntToID(element+(i+j*10)));
+
+                    var cell = element+(i+j*10)
+                    if(element%10 == 0 && i == -1){//stops color on left if in first column
+                        continue;
+                    }
+                    if(cell < 99 && cell > 0){//fix miss coming from side
+                            htmlMissCell(gs.cellIntToID(cell));
+                    }
+                    if(cell%10 ==9&&j==1){//stops loop if reached right side
+                        i = 100;
+                    }
                 }
+               
             }
+
+            
         })
 
         
@@ -152,6 +165,7 @@ function GameState(socket) {
                 htmlDisableShip(gs.boatType); // TODO make work
                 gs.addShipToArray(gs.shipCells, cells, gs.boatType);
                 gs.placedShips.push(gs.boatType);
+                gs.boatType++;
             }
         }
     }
@@ -253,7 +267,26 @@ function GameState(socket) {
                 
         boat.forEach(function(element){
             cellIDs.push(gs.cellIntToID(element)+"c");
+
+            for(var i = -1;i<2;i++){//set miss loop
+                for(var j = -1; j<2;j++){
+
+                    var cell = element+(i+j*10)
+                    if(element%10 == 0 && i == -1){//stops color on left if in first column
+                        continue;
+                    }
+                    if(cell < 99 && cell > 0){//fix miss coming from side
+                            htmlMissCell(gs.cellIntToID(cell)+ "c");
+                    }
+                    if(cell%10 ==9&&j==1){//stops loop if reached right side
+                        i = 100;
+                    }
+                }
+               
+            }
         });
+
+       
 
 
         htmlSunkShip(cellIDs);
@@ -365,9 +398,19 @@ function GameState(socket) {
     this.isFreeAroundCell = function (cellID) { // checks around a given integer cellID and returns false if any of the surrounding cells contain a ship
         for (var i = -1; i <= 1; i++) {
             for (var j = -1; j <= 1; j++) {
-                if (gs.shipCells.includes(cellID + (i + 10 * j))) {
+
+                var cell = cellID + (i + 10 * j);
+
+                if(cellID%10 == 0 && i == -1){//stops color on left if in first column
+                    continue;
+                }
+   
+                if (gs.shipCells.includes(cell)) {
                     return false;
                 }
+            }
+            if(cell%10 ==9&&j==1){//stops loop if reached right side
+                i = 100;
             }
         } //TODO: fix checking across border bug
         return true;
@@ -405,7 +448,7 @@ function initializeConnection() {
             gs.changeTurn();
         }
 
-        if (event.data == "BOTH READY") {
+        else if (event.data == "BOTH READY") {
 
             gs.beginGame();
         }
