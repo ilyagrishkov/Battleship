@@ -2,65 +2,87 @@ var greenLight = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Butt
 var redLight = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png";
 
 
-function htmlSetReadyLights(clientTurn){
+function htmlSetReadyLights(clientTurn) {
 
-    if(clientTurn == true){
+    if (clientTurn == true) {
         console.log("switch to player c turn")
-        document.getElementById("readyLightClient").src=greenLight;
-        document.getElementById("readyLightOther").src=redLight;
-    }
-    else if(clientTurn == false){
-        document.getElementById("readyLightClient").src=redLight;
-        document.getElementById("readyLightOther").src=greenLight;
+        document.getElementById("readyLightClient").src = greenLight;
+        document.getElementById("readyLightOther").src = redLight;
+    } else if (clientTurn == false) {
+        document.getElementById("readyLightClient").src = redLight;
+        document.getElementById("readyLightOther").src = greenLight;
     }
 }
 
-function htmlClientReady(){
+function htmlClientReady() {
     var button = document.getElementById("readyButton");
-    button.onclick=null;
-    button.hidden = true;   
+    button.onclick = null;
+    button.hidden = true;
 
-    document.getElementById("readyLightClient").src=greenLight;
+    document.getElementById("readyLightClient").src = greenLight;
 
 }
 
-function htmlBeginGame(){
-    //stuff
+function htmlBeginGame() {
+    for (var i = 0; i < 10; i++) {
+
+        for (var k = 0; k < 10; k++) {
+            var cell = i.toString() + k.toString();
+            $("#" + cell).attr('onclick', 'shoot(this.id)');
+        }
+    }
 }
 
-function htmlYourTurn(){ //WORK ON THIS
-    $("#gameGridDivsOther").find('*').attr("onclick", null);
+function htmlYourTurn() { //WORK ON THIS
+    for (var i = 0; i < 10; i++) {
+
+        for (var k = 0; k < 10; k++) {
+            var cell = i.toString() + k.toString();
+            $("#" + cell).attr('onclick', 'shoot(this.id)');
+        }
+    }
+    //$("#gameGridDivsOther").find('*').attr("onclick", null);
+    $("#playerTurnSpan").html("YOU");
     htmlSetReadyLights(true);
 }
 
-function htmlEndTurn(){
-    disableChildren($("#gameGridDivsOther")); //try to disable all children when this is called
+function htmlEndTurn() {
+
+    for (var i = 0; i < 10; i++) {
+
+        for (var k = 0; k < 10; k++) {
+            var cell = i.toString() + k.toString();
+            $("#" + cell).attr('onclick', '');
+        }
+    }
+    //disableChildren($("#gameGridDivsOther")); //try to disable all children when this is called
+    $("#playerTurnSpan").html("ENEMY");
     htmlSetReadyLights(false);
 
 }
 
-function disableChildren(element){
+function disableChildren(element) {
     var children = element.children();
 
-    $.each(children, function(){
-        $(this).attr('disabled',true);
+    $.each(children, function () {
+        $(this).attr('disabled', true);
     });
 }
 
-function htmlPlaceShip(cells){
-    
+function htmlPlaceShip(cells) {
+
     console.log(cells); //DEBUG
-    cells.forEach(function(element){
+    cells.forEach(function (element) {
         var cellName = gs.cellIntToID(element);
-        cellName = cellName+"c";
+        cellName = cellName + "c";
         console.log(cellName);
         htmlSetBoatCell(cellName);
     })
 }
 
-function htmlDisableShip(boatType){
+function htmlDisableShip(boatType) {
     var boatID;
-    switch(boatType){
+    switch (boatType) {
         case 0: //carrier
             boatID = "Carrier";
             break;
@@ -75,27 +97,27 @@ function htmlDisableShip(boatType){
             break;
         case 4: //smallship
             boatID = "SmallShip";;
-            break;    
+            break;
         default:
             break;
     }
     document.getElementById(boatID).disabled = true;
 }
 
-function htmlSetBoatCell(cellID){
+function htmlSetBoatCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "black";
     console.log("Changed background for: " + cellID);
 }
 
-function htmlUndoBoatCell(cellID){
+function htmlUndoBoatCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "aquamarine";
 }
 
-function htmlHitCell(cellID){
+function htmlHitCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "red";
 }
 
-function htmlMissCell(cellID){
+function htmlMissCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "blue"; //add disable element to all this
 
 }

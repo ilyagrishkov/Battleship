@@ -72,7 +72,7 @@ wss.on("connection", function (ws) {
 
             if (gameObj.bothPlayersReady()) {
                 gameObj.playerA.send("BOTH READY");
-                gameObj.playerB.send("BOTH READY");
+                //gameObj.playerB.send("BOTH READY");
             }
         } else {
 
@@ -84,7 +84,7 @@ wss.on("connection", function (ws) {
                 console.log("[LOG] Player A sent message: %s", message);
 
 
-                if (gameObj.hasTwoConnectedPlayers()) {
+                if (gameObj.hasTwoConnectedPlayers() || gameObj.bothPlayersReady()) {
                     gameObj.playerB.send(message);
                 }
 

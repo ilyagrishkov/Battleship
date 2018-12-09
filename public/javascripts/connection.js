@@ -53,38 +53,38 @@ function GameState(socket) {
     }
 
     this.yourTurn = function () {
-
+        htmlYourTurn();
     }
-    this.handleShot = function(cellID){//receiving shots   
+    this.handleShot = function (cellID) { //receiving shots   
         console.log("Received shot on:" + cellID);
-        console.log(gs.shipCells); 
-        if(gs.shipCells.includes(cellID)){
-            htmlHitCell(cellID+"c");
-            gs.updateGame("hit"+cellID);
+        console.log(gs.shipCells);
+        if (gs.shipCells.includes(cellID)) {
+            htmlHitCell(cellID + "c");
+            gs.updateGame("hit" + cellID);
+            gs.clientEndTurn();
 
-        }
-        else{
-            htmlMissCell(cellID+"c");
-            gs.updateGame("miss"+cellID);
+        } else {
+            htmlMissCell(cellID + "c");
+            gs.updateGame("miss" + cellID);
         }
     }
-    this.handleHit = function(cell){
+    this.handleHit = function (cell) {
         console.log("Handling hit on: " + cell)
         cellID = gs.cellIntToID(cell)
-        console.log("CellID: "+cellID );
+        console.log("CellID: " + cellID);
         htmlHitCell(cellID);
     }
-    this.handleMiss = function(cell){
+    this.handleMiss = function (cell) {
         console.log("Handling miss on: " + cell)
         cellID = gs.cellIntToID(cell)
         htmlMissCell(cellID);
     }
-    this.handleSunk = function(cell){
+    this.handleSunk = function (cell) {
         console.log("Handling sunk")
     }
-    this.cellIntToID = function(cell){
-        if(cell<10){
-            return "0"+cell;
+    this.cellIntToID = function (cell) {
+        if (cell < 10) {
+            return "0" + cell;
         }
         return cell;
     }
@@ -103,15 +103,15 @@ function GameState(socket) {
                 console.log("Placing ship");
 
                 htmlPlaceShip(cells);
-                htmlDisableShip(gs.boatType);// TODO make work
-                gs.addShipToArray(gs.shipCells,cells,gs.boatType);
+                htmlDisableShip(gs.boatType); // TODO make work
+                gs.addShipToArray(gs.shipCells, cells, gs.boatType);
                 gs.placedShips.push(gs.boatType);
             }
         }
     }
-    this.addShipToArray= function(array,cells,boatType){
+    this.addShipToArray = function (array, cells, boatType) {
         var index = -1;
-        switch(boatType){
+        switch (boatType) {
             case 0: //carrier
                 index = 0;
                 break;
@@ -126,12 +126,12 @@ function GameState(socket) {
                 break;
             case 4: //smallship
                 index = 15;
-                break;    
+                break;
             default:
                 break;
         }
-        for(var i = index; i < index+cells.length; i++){
-            array[i] = cells[i-index];
+        for (var i = index; i < index + cells.length; i++) {
+            array[i] = cells[i - index];
         }
         console.log(array);
     }
@@ -186,8 +186,7 @@ function GameState(socket) {
         return result;
     }
 
-    this.checkSunk = function(cellID){
-    }
+    this.checkSunk = function (cellID) {}
 
     this.canPlaceShip = function (cells, boatOrientation) {
 
@@ -196,12 +195,12 @@ function GameState(socket) {
         var errorMessage;
 
         if (boatOrientation == 0 || boatOrientation == 1) { //palcing horizontally
-            if (Math.floor(cells[0] / 10) - Math.floor(cells[cells.length - 1] / 10) != 0) {//check side borders
+            if (Math.floor(cells[0] / 10) - Math.floor(cells[cells.length - 1] / 10) != 0) { //check side borders
                 alert("Ship is too close to the side borders!")
                 return false;
             }
         } else if (boatOrientation == 2 || boatOrientation == 3) { //placing vertically
-            if (cells[cells.length-1] < 0 || cells[cells.length-1] > 99 ) { //check top or bottom border
+            if (cells[cells.length - 1] < 0 || cells[cells.length - 1] > 99) { //check top or bottom border
                 alert("Ship is too close to the top or bottom border!")
                 return false;
             }
@@ -245,7 +244,7 @@ function GameState(socket) {
 
 function initializeConnection() {
 
-    var socket = new WebSocket("ws://"+ location.host);
+    var socket = new WebSocket("ws://" + location.host);
     gs = new GameState(socket);
 
     socket.onmessage = function (event) {
@@ -266,7 +265,7 @@ function initializeConnection() {
             gs.changeTurn();
         }
 
-        if (event.data == "bothReady") {
+        if (event.data == "BOTH READY") {
 
             gs.beginGame();
         }
@@ -275,21 +274,24 @@ function initializeConnection() {
             gs.yourTurn();
         }
 
-        if(event.data.substring(0,4) == "shot" ){
+        if (event.data.substring(0, 4) == "shot") {
+            console.log(event.data);
+            gs.yourTurn();
             gs.handleShot(parseInt(event.data.substring(4)));
         }
-        if(event.data.substring(0,3) == "hit"){
+        if (event.data.substring(0, 3) == "hit") {
             gs.handleHit(parseInt(event.data.substring(3)));
         }
-        if(event.data.substring(0,4) == "miss" ){
+        if (event.data.substring(0, 4) == "miss") {
+            gs.clientEndTurn();
             gs.handleMiss(parseInt(event.data.substring(4)));
         }
-        if(event.data.substring(0,4)=="sunk"){
+        if (event.data.substring(0, 4) == "sunk") {
             gs.handleSunk(event.data.substring(4))
         }
 
         console.log("Received:" + event.data);
-    
+
         socket.onopen = function () {
 
         };
@@ -298,13 +300,13 @@ function initializeConnection() {
 
 function shoot(cellID) {
     //Here should be shot validation code
-    gs.clientEndTurn();
+
 
     var coordinate_x = cellID.substring(0, 1);
     var coordinate_y = cellID.substring(1);
 
     var s = coordinate_x + coordinate_y;
-    gs.updateGame("shot"+s);
+    gs.updateGame("shot" + s);
 };
 
 
