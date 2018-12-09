@@ -52,7 +52,7 @@ function htmlEndTurn() {
 
         for (var k = 0; k < 10; k++) {
             var cell = i.toString() + k.toString();
-            $("#" + cell).attr('onclick', '');
+            $("#" + cell).attr('onclick', 'shoot(this.id)');
         }
     }
 
