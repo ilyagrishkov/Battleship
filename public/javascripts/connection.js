@@ -58,32 +58,31 @@ function GameState(socket) {
     }
     this.handleShot = function (cellID) { //receiving shots   
         console.log("Received shot on:" + cellID);
-        console.log(gs.shipCells); 
-        if(gs.shipCells.includes(cellID)){
-            htmlHitCell(gs.cellIntToID(cellID)+"c");
-            gs.hitCells[gs.shipCells.indexOf(cellID)]=-1;
-            gs.updateGame("hit"+cellID);
+        console.log(gs.shipCells);
+        if (gs.shipCells.includes(cellID)) {
+            htmlHitCell(gs.cellIntToID(cellID) + "c");
+            gs.hitCells[gs.shipCells.indexOf(cellID)] = -1;
+            gs.updateGame("hit" + cellID);
             gs.clientEndTurn();
-            
-            if(gs.checkSunk(cellID)){ //if sunk
+
+            if (gs.checkSunk(cellID)) { //if sunk
                 console.log("boat sunk");
-                var boat = gs.getBoatFromCellID(gs.shipCells,cellID);
-                
-    
+                var boat = gs.getBoatFromCellID(gs.shipCells, cellID);
+
+
                 gs.sinkShip(boat);
 
                 gs.sendSunk(boat);
 
                 gs.boatsSunk++;
-                if(gs.boatsSunk == 5){
+                if (gs.boatsSunk == 5) {
                     gs.allBoatsSunk();
                 }
             }
 
-        }
-        else{
-            htmlMissCell(gs.cellIntToID(cellID)+"c");
-            gs.updateGame("miss"+cellID);
+        } else {
+            htmlMissCell(gs.cellIntToID(cellID) + "c");
+            gs.updateGame("miss" + cellID);
         }
     }
     this.handleHit = function (cell) {
@@ -98,10 +97,10 @@ function GameState(socket) {
         cellID = gs.cellIntToID(cell)
         htmlMissCell(cellID);
     }
-    
-    this.handleSunk = function(cells){
+
+    this.handleSunk = function (cells) {
         var cellIDs = new Array();
-        cells.forEach(function(element){
+        cells.forEach(function (element) {
             cellIDs.push(gs.cellIntToID(element));
             for(var i = -1;i<2;i++){//set miss loop
                 for(var j = -1; j<2;j++){
@@ -123,26 +122,26 @@ function GameState(socket) {
             
         })
 
-        
+
         htmlSunkShip(cellIDs);
 
-        
+
     }
 
-    this.handleGG = function(){
+    this.handleGG = function () {
         htmlVictory();
     }
 
-    this.cellIntToID = function(cell){
-        if(cell<10){
-            return "0"+cell;
+    this.cellIntToID = function (cell) {
+        if (cell < 10) {
+            return "0" + cell;
         }
         return cell;
     }
 
-    this.sendSunk = function(cells){
+    this.sendSunk = function (cells) {
         var message = new Object();
-        message.id="sunk";
+        message.id = "sunk";
         message.boat = cells;
         JSONmessage = JSON.stringify(message);
         gs.updateGame(JSONmessage)
@@ -246,14 +245,14 @@ function GameState(socket) {
         return result;
     }
 
-    this.checkSunk = function(cellID){
+    this.checkSunk = function (cellID) {
         var result = true;
-        var boat = gs.getBoatFromCellID(gs.hitCells,cellID);
+        var boat = gs.getBoatFromCellID(gs.hitCells, cellID);
 
         console.log("Checking boat:" + boat);
 
-        boat.forEach(function(element){
-            if(element!=-1){
+        boat.forEach(function (element) {
+            if (element != -1) {
                 result = false;
             }
         });
@@ -261,7 +260,7 @@ function GameState(socket) {
         return result;
     }
 
-    this.sinkShip = function(boat){
+    this.sinkShip = function (boat) {
 
         var cellIDs = new Array(); //array of cell ids for htmlFunction
                 
@@ -292,7 +291,7 @@ function GameState(socket) {
         htmlSunkShip(cellIDs);
     }
 
-    this.allBoatsSunk = function(){
+    this.allBoatsSunk = function () {
         gs.updateGame("gg");
         htmlLost();
     }
@@ -300,7 +299,7 @@ function GameState(socket) {
 
 
 
-    this.getBoat = function(array,boat){//returns part of shipCells array with the corresponding boat
+    this.getBoat = function (array, boat) { //returns part of shipCells array with the corresponding boat
         var result = new Array();
         var startIndex = -1;
         var endIndex = -1;
@@ -316,7 +315,7 @@ function GameState(socket) {
             case 2: //submarine
                 startIndex = 9;
                 endIndex = 11;
-                break;  
+                break;
             case 3: //destroyer
                 startIndex = 12;
                 endIndex = 14;
@@ -324,38 +323,34 @@ function GameState(socket) {
             case 4: //smallship
                 startIndex = 15;
                 endIndex = 16;
-                break;  
+                break;
             default:
                 break;
         }
-        for(var i = startIndex; i < endIndex+1;i++){
+        for (var i = startIndex; i < endIndex + 1; i++) {
             result.push(array[i]);
         }
-    
+
         return result;
     }
-    
-    this.getBoatFromCellID = function(array,cellID){
+
+    this.getBoatFromCellID = function (array, cellID) {
         var result;
         var cellIndex = gs.shipCells.indexOf(cellID);
 
-        console.log("Finding boat from cell: " +cellID+ "index:" +gs.shipCells.indexOf(cellID));
+        console.log("Finding boat from cell: " + cellID + "index:" + gs.shipCells.indexOf(cellID));
 
-        if(cellIndex <5){
+        if (cellIndex < 5) {
             console.log("Clicked on carrier");
-            result = gs.getBoat(array,0);
-        }
-        else if(cellIndex <9){
-            result = gs.getBoat(array,1);
-        }
-        else if(cellIndex < 12){
-            result = gs.getBoat(array,2);
-        }
-        else if(cellIndex<15){
-            result = gs.getBoat(array,3);
-        }
-        else if(cellIndex<17){
-            result = gs.getBoat(array,4);
+            result = gs.getBoat(array, 0);
+        } else if (cellIndex < 9) {
+            result = gs.getBoat(array, 1);
+        } else if (cellIndex < 12) {
+            result = gs.getBoat(array, 2);
+        } else if (cellIndex < 15) {
+            result = gs.getBoat(array, 3);
+        } else if (cellIndex < 17) {
+            result = gs.getBoat(array, 4);
         }
 
         return result;
@@ -435,43 +430,30 @@ function initializeConnection() {
         if (event.data == "otherPlayerDisconnected") {
             disconnection();
             socket.close();
-        }
-
-        else if (event.data == "2 JOINT") {
+        } else if (event.data == "2 JOINT") {
             startGame();
         } else if (event.data == "1 JOINT") {
             waitForSecondPlayer();
-        }
-
-
-        else if (event.data == "endTurn") {
-            gs.changeTurn();
+        } else if (event.data == "endTurn") {
+            gs.clientEndTurn();
         }
 
         else if (event.data == "BOTH READY") {
 
             gs.beginGame();
-        }
-
-        else if (event.data == "yourTurn") {
+        } else if (event.data == "yourTurn") {
             gs.yourTurn();
-        }
-
-        else if(event.data.substring(0,4) == "shot" ){
+        } else if (event.data.substring(0, 4) == "shot") {
             gs.yourTurn();
             gs.handleShot(parseInt(event.data.substring(4)));
-        }
-        else if(event.data.substring(0,3) == "hit"){
+        } else if (event.data.substring(0, 3) == "hit") {
             gs.handleHit(parseInt(event.data.substring(3)));
-        }
-        else if(event.data.substring(0,4) == "miss" ){
+        } else if (event.data.substring(0, 4) == "miss") {
             gs.clientEndTurn();
             gs.handleMiss(parseInt(event.data.substring(4)));
-        }
-        else if(event.data == "gg"){
+        } else if (event.data == "gg") {
             gs.handleGG();
-        }
-        else if(JSON.parse(event.data).id == "sunk"){
+        } else if (JSON.parse(event.data).id == "sunk") {
             console.log("received sunk");
             gs.handleSunk(JSON.parse(event.data).boat);
         }

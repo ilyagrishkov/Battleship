@@ -33,7 +33,7 @@ function htmlBeginGame() {
     }
 }
 
-function htmlYourTurn() { //WORK ON THIS
+function htmlYourTurn() {
     for (var i = 0; i < 10; i++) {
 
         for (var k = 0; k < 10; k++) {
@@ -41,7 +41,7 @@ function htmlYourTurn() { //WORK ON THIS
             $("#" + cell).attr('onclick', 'shoot(this.id)');
         }
     }
-    //$("#gameGridDivsOther").find('*').attr("onclick", null);
+
     $("#playerTurnSpan").html("YOU");
     htmlSetReadyLights(true);
 }
@@ -55,7 +55,7 @@ function htmlEndTurn() {
             $("#" + cell).attr('onclick', 'shoot(this.id)');
         }
     }
-    //disableChildren($("#gameGridDivsOther")); //try to disable all children when this is called
+
     $("#playerTurnSpan").html("ENEMY");
     htmlSetReadyLights(false);
 
@@ -80,14 +80,14 @@ function htmlPlaceShip(cells) {
     })
 }
 
-function htmlSunkShip(cellIDs){
-    cellIDs.forEach(function(element){
+function htmlSunkShip(cellIDs) {
+    cellIDs.forEach(function (element) {
         console.log("Setting cell sunk:" + element);
         document.getElementById(element).style.backgroundColor = "red";
     });
 }
 
-function htmlDisableShip(boatType){
+function htmlDisableShip(boatType) {
     var boatID;
     switch (boatType) {
         case 0: //carrier
@@ -120,7 +120,7 @@ function htmlUndoBoatCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "aquamarine";
 }
 
-function htmlHitCell(cellID){
+function htmlHitCell(cellID) {
     document.getElementById(cellID).style.backgroundColor = "green";
 }
 
@@ -129,10 +129,10 @@ function htmlMissCell(cellID) {
 
 }
 
-function htmlVictory(){
+function htmlVictory() {
 
 }
 
-function htmlLost(){
+function htmlLost() {
 
 }
