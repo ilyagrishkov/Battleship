@@ -10,11 +10,18 @@
                         <img id="readyLightClient" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
                     </div>
 
-                    <div class="boat" id="Battleship" onclick=""></div>
-                    <div class="boat" id="Carrier"></div>
-                    <div class="boat" id="Submarine"></div>
-                    <div class="boat" id="Destroyer"></div>
-                    <div class="boat" id="SmallShip"></div>
+                    <img class="boat" id="Carrier" src="images/carrier.png" onclick="setSelectedShipType(this.id)"></img>
+                    <img class="boat" id="Battleship" src="images/battleship.png" onclick="setSelectedShipType(this.id)"></img>
+                    <img class="boat" id="Submarine" src="images/submarine.png" onclick="setSelectedShipType(this.id)"></img>
+                    <img class="boat" id="Destroyer" src="images/destroyer.png" onclick="setSelectedShipType(this.id)"></img>
+                    <img class="boat" id="SmallShip" src="images/smallship.png" onclick="setSelectedShipType(this.id)"></img>
+
+                    <div>
+                        <img class="orientationButton" id="Right" src="NYI" onclick="setShipOrientation(0)"></img>
+                        <img class="orientationButton" id="Left" src="NYI" onclick="setShipOrientation(1)"></img>
+                        <img class="orientationButton" id="Up" src="NYI" onclick="setShipOrientation(2)"></img>
+                        <img class="orientationButton" id="Down" src="NYI" onclick="setShipOrientation(3)"></img>
+                    </div>
 
                 </div>
             </div>
@@ -24,6 +31,12 @@
                     <div class="readyLight">
                         <img id="readyLightOther" height="32" width="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Redbutton.svg/2000px-Redbutton.svg.png">
                     </div>
+
+                    <img class="boat" id="CarrierOther" src="images/carrier.png"></img>
+                    <img class="boat" id="BattleshipOther" src="images/battleship.png"></img>
+                    <img class="boat" id="SubmarineOther" src="images/submarine.png"></img>
+                    <img class="boat" id="DestroyerOther" src="images/destroyer.png"></img>
+                    <img class="boat" id="SmallShipOther" src="images/smallship.png"></img>
                 </div>
             </div>
 

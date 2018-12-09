@@ -3,9 +3,6 @@ var shotFields = [];
 var MAX_SHOTS = 100;
 var numberOfShots = 0;
 
-var boatType = -1;
-var boatOrientation = 0;
-
 function GameState(socket) {
 
     this.clientTurn = false;
@@ -16,6 +13,10 @@ function GameState(socket) {
     this.MAX_CELLS_DESTROYED = 20;
     this.number_of_destroyed_cells_by_A = 0;
     this.number_of_destroyed_cells_by_B = 0;
+
+    
+    this.boatType = 0;
+    this.boatOrientation = 0;
 
     this.whoWon = function () {
 
@@ -82,19 +83,27 @@ function GameState(socket) {
             alert("You have already placed that ship! Select a new one");
         }
         else{
-            if(gs.canPlaceShip(cellID, gs.boatOrientation,gs.boatType)){
-                //htmlplaceship
-                //add ships and cells to corresponding arrays
-            }
-            
+            var cells = gs.getCellsForBoat(cellID,gs.boatOrientation,gs.boatType);
+
+            if(gs.canPlaceShip(cells,gs.boatOrientation)){
+                console.log("Placing ship");
+
+                htmlPlaceShip(cells);
+                htmlDisableShip(gs.boatType);
+                cells.forEach(function(element){
+                    gs.shipCells.push(element);
+                });
+                gs.placedShips.push(gs.boatType);
+            }         
         }
     }
 
     this.getCellsForBoat = function(cellID,orientation,boatType){ // returns the cells which a boat would occupy
-        
+        console.log("Finding cells for boat:" +cellID+ "; orientation:"+ orientation+ "; type:" + boatType);
+
         var result = new Array();
 
-        id = parseInt(cellID.substring(0,2))
+        id = parseInt(cellID.substring(0,2));
 
        var shipLength = 0;
         switch(boatType){
@@ -133,25 +142,46 @@ function GameState(socket) {
                 break;
         }
 
-        for(var i = id; i < length*displacement; i += displacement){
+        for(var i = id; i != id + shipLength*displacement; i += displacement){
             result.push(i);
         }
         return result;
     }
 
-    this.canPlaceShip = function(cellID,orientation,boatType){
+    this.canPlaceShip = function(cells,boatOrientation){
 
-       var possibleShipCells = gs.getCellsForBoat(cellID,orientation,boatType);
+        var result = true;
+        var possibleShipCells = cells;
+        var errorMessage;
 
-       possibleShipCells.forEach(function(cell){
-            if(cell/10 > 9 || cell%10 > 9 || gs.shipCells.includes(cell)){ //checks for space directly on the path
+        if(boatOrientation == 0 || boatOrientation == 1){//move right
+            if(Math.floor(cells[0]/10)-Math.floor(cells[cells.length-1]/10) != 0){
+                alert("Ship is too close to the side borders!")
                 return false;
             }
-            if(!gs.isFreeAroundCell(cell)){
-                return false;    
+        }
+        else if(boatOrientation ==2 || boatOrientation ==3){
+            if(Math.floor(cells[0]%10)-Math.floor(cells[cells.length-1]%10) != 0){
+                alert("Ship is too close to the top or bottom border!")
+                return false;
             }
-       });
-        return true;
+        }
+        possibleShipCells.forEach(function(cell){
+            console.log("Checking cell:" + cell); //TODO: MUST ADD CHECK FOR TOP AND LEFT BORDERS
+            
+            if(gs.shipCells.includes(cell)){ //checks for space directly on the path
+                errorMessage = "Ship collides with another ship";
+                result = false;
+            }
+            else  if(!gs.isFreeAroundCell(cell)){
+                errorMessage = "Ship is too close to another ship";
+                result = false;    
+            }
+        });
+        if(errorMessage != null){
+            alert(errorMessage);
+        }
+        return result;;
     }
 
     this.isFreeAroundCell = function(cellID){ // checks around a given integer cellID and returns false if any of the surrounding cells contain a ship
@@ -206,7 +236,7 @@ function initializeConnection() {
             gs.yourTurn();
         }
 
-        console.log(event.data);
+        console.log("Received:" + event.data);
 
         socket.onopen = function () {
 
@@ -231,30 +261,32 @@ function setClientReady() {
 }
 
 function deployShip(cellID){
-    console.log(gs.clientTurn);
 
     gs.deployShip(cellID);
     
 }
 
 function setSelectedShipType(type){
-    if(type.equals("Battleship")){
-        boatType = 0;
+    if(type =="Carrier"){
+        gs.boatType = 0;
     }
-    else if(type.equals("Carrier")){
-        boatType = 1;
+    else if(type == "Battleship"){
+        gs.boatType = 1;
     }
-    else if(type.equals("Submarine")){
-        boatType = 2;
+    else if(type == "Submarine"){
+        gs.boatType = 2;
     }
-    else if(type.equals("Destroyer")){
-        boatType = 3;
+    else if(type == "Destroyer"){
+        gs.boatType = 3;
     }
-    else if(type.equals("SmallShip")){
-        boatType = 4;
-    }   
+    else if(type == "SmallShip"){
+        gs.boatType = 4;
+    }
+    
+    console.log(gs.boatType);
 }
 
 function setShipOrientation(orientation){
-    boatOrientation = orientation;
+    gs.boatOrientation = orientation;
+    console.log(gs.boatOrientation);
 }

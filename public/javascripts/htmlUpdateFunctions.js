@@ -45,8 +45,9 @@ function disableChildren(element){
     });
 }
 
-function htmlPlaceShip(cellID, orientation,boatType){
-    var cells = gs.getCellsForBoat(cellID,orientation,boatType);
+function htmlPlaceShip(cells){
+    
+    console.log(cells); //DEBUG
     cells.forEach(function(element){
         var cellName = element+"c";
         if(element<10){
@@ -56,8 +57,33 @@ function htmlPlaceShip(cellID, orientation,boatType){
     })
 }
 
+function htmlDisableShip(boatType){
+    var boatID;
+    switch(boatType){
+        case 0: //carrier
+            boatID = "Carrier";
+            break;
+        case 1: //battleship
+            boatID = "Battleship";
+            break;
+        case 2: //submarine
+            boatID = "Submarine";;
+            break;
+        case 3: //destroyer
+            boatID = "Destroyer";;
+            break;
+        case 4: //smallship
+            boatID = "SmallShip";;
+            break;    
+        default:
+            break;
+    }
+    document.getElementById(boatID).disabled = true;
+}
+
 function htmlSetBoatCell(cellID){
-    document.getElementById(cellID).style.backgroundColor = "red";
+    document.getElementById(cellID).style.backgroundColor = "black";
+    console.log("Changed background for: " + cellID);
 }
 
 function htmlUndoBoatCell(cellID){
