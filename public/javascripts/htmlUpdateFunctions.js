@@ -16,7 +16,9 @@ function htmlSetReadyLights(clientTurn){
 }
 
 function htmlClientReady(){
-    document.getElementById("turnReadyButton").disabled = true;
+    var button = document.getElementById("readyButton");
+    button.onclick=null;
+    button.hidden = true;   
 
     document.getElementById("readyLightClient").src=greenLight;
 
@@ -26,8 +28,8 @@ function htmlBeginGame(){
     //stuff
 }
 
-function htmlYourTurn(){
-    $("#gameGridDivsOther").find('*').attr("disabled", false);
+function htmlYourTurn(){ //WORK ON THIS
+    $("#gameGridDivsOther").find('*').attr("onclick", null);
     htmlSetReadyLights(true);
 }
 
@@ -49,10 +51,9 @@ function htmlPlaceShip(cells){
     
     console.log(cells); //DEBUG
     cells.forEach(function(element){
-        var cellName = element+"c";
-        if(element<10){
-            cellName = "0"+cellName;
-        }
+        var cellName = gs.cellIntToID(element);
+        cellName = cellName+"c";
+        console.log(cellName);
         htmlSetBoatCell(cellName);
     })
 }
@@ -88,4 +89,13 @@ function htmlSetBoatCell(cellID){
 
 function htmlUndoBoatCell(cellID){
     document.getElementById(cellID).style.backgroundColor = "aquamarine";
+}
+
+function htmlHitCell(cellID){
+    document.getElementById(cellID).style.backgroundColor = "red";
+}
+
+function htmlMissCell(cellID){
+    document.getElementById(cellID).style.backgroundColor = "blue"; //add disable element to all this
+
 }

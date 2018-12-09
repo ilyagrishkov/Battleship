@@ -32,12 +32,12 @@ function loadGridOther() { //loads divs through nested for-loops
       $("#gameGridDivsOther").append('<div class = "gameGridHeader">'+String.fromCharCode(i)+'</div>');
     }
 
-    for(var i = 1; i <11; i++){
+    for(var i = 0; i <10; i++){
         console.log("Adding row");
-        $("#gameGridDivsOther").append('<div class = "gameGridHeader">'+i+'</div>');
+        $("#gameGridDivsOther").append('<div class = "gameGridHeader">'+(i+1)+'</div>');
          
         for(var k = 0; k < 10; k++){
-            var otherCell = $('<div class="gameGridCell" id="'+k+i+'" onclick="shoot(this.id)"></div>')
+            var otherCell = $('<div class="gameGridCell" id="'+i+k+'" onclick="shoot(this.id)"></div>')
             $("#gameGridDivsOther").append(otherCell.clone());
         }
     }

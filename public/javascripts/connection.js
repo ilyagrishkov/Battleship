@@ -7,8 +7,9 @@ function GameState(socket) {
 
     this.clientTurn = false;
 
-    this.shipCells = new Array(); //stores occupied cells by id in integer format; eg: id = 01 stored as 1, id=90 stored as 90
+    this.shipCells = new Array(17); //stores occupied cells by id in integer format; eg: id = 01 stored as 1, id=90 stored as 90
     this.placedShips = new Array(); //keeps track of which of the 5 ships have been placed
+    this.hitCells = new Array(17);
 
     this.MAX_CELLS_DESTROYED = 20;
     this.number_of_destroyed_cells_by_A = 0;
@@ -54,28 +55,43 @@ function GameState(socket) {
     this.yourTurn = function () {
 
     }
-
-    this.updateGame = function (s) {
-        socket.send("shot" + s);
-    }
-
-    /*this.deployShip = function(cellID){ // TOODO: check for space, check neighbouring ships ,deploy ship     
-
+    this.handleShot = function(cellID){//receiving shots   
+        console.log("Received shot on:" + cellID);
+        console.log(gs.shipCells); 
         if(gs.shipCells.includes(cellID)){
-            gs.undoShip(cellID);
+            htmlHitCell(cellID+"c");
+            gs.updateGame("hit"+cellID);
+
         }
         else{
-            if(gs.shipCells.length == 17){
-                alert("You already have the max number of cells!");
-            }else{
+            htmlMissCell(cellID+"c");
+            gs.updateGame("miss"+cellID);
+        }
+    }
+    this.handleHit = function(cell){
+        console.log("Handling hit on: " + cell)
+        cellID = gs.cellIntToID(cell)
+        console.log("CellID: "+cellID );
+        htmlHitCell(cellID);
+    }
+    this.handleMiss = function(cell){
+        console.log("Handling miss on: " + cell)
+        cellID = gs.cellIntToID(cell)
+        htmlMissCell(cellID);
+    }
+    this.handleSunk = function(cell){
+        console.log("Handling sunk")
+    }
+    this.cellIntToID = function(cell){
+        if(cell<10){
+            return "0"+cell;
+        }
+        return cell;
+    }
 
-
-                htmlSetBoatCell(cellID);
-                console.log("Deployed ship on: " + cellID);
-                gs.shipCells.push(cellID);
-            }
-        }   
-    }*/
+    this.updateGame = function (s) {
+        socket.send(s);
+    }
 
     this.deployShip = function (cellID) {
         if (gs.placedShips.includes(gs.boatType)) {
@@ -88,12 +104,12 @@ function GameState(socket) {
 
                 htmlPlaceShip(cells);
                 htmlDisableShip(gs.boatType);// TODO make work
-                gs.addShipToArray(cells,gs.boatType);
+                gs.addShipToArray(gs.shipCells,cells,gs.boatType);
                 gs.placedShips.push(gs.boatType);
             }
         }
     }
-    this.addShipToArray= function(cells,boatType){
+    this.addShipToArray= function(array,cells,boatType){
         var index = -1;
         switch(boatType){
             case 0: //carrier
@@ -114,9 +130,10 @@ function GameState(socket) {
             default:
                 break;
         }
-        for(var i = index; i < cells.length; i++){
-            gs.shipCells[i] = cells[i-index];
+        for(var i = index; i < index+cells.length; i++){
+            array[i] = cells[i-index];
         }
+        console.log(array);
     }
 
     this.getCellsForBoat = function (cellID, orientation, boatType) { // returns the cells which a boat would occupy
@@ -169,19 +186,22 @@ function GameState(socket) {
         return result;
     }
 
+    this.checkSunk = function(cellID){
+    }
+
     this.canPlaceShip = function (cells, boatOrientation) {
 
         var result = true;
         var possibleShipCells = cells;
         var errorMessage;
 
-        if (boatOrientation == 0 || boatOrientation == 1) { //move right
-            if (Math.floor(cells[0] / 10) - Math.floor(cells[cells.length - 1] / 10) != 0) {
+        if (boatOrientation == 0 || boatOrientation == 1) { //palcing horizontally
+            if (Math.floor(cells[0] / 10) - Math.floor(cells[cells.length - 1] / 10) != 0) {//check side borders
                 alert("Ship is too close to the side borders!")
                 return false;
             }
-        } else if (boatOrientation == 2 || boatOrientation == 3) {
-            if (Math.floor(cells[0] % 10) - Math.floor(cells[cells.length - 1] % 10) != 0) {
+        } else if (boatOrientation == 2 || boatOrientation == 3) { //placing vertically
+            if (cells[cells.length-1] < 0 || cells[cells.length-1] > 99 ) { //check top or bottom border
                 alert("Ship is too close to the top or bottom border!")
                 return false;
             }
@@ -210,7 +230,7 @@ function GameState(socket) {
                     return false;
                 }
             }
-        }
+        } //TODO: fix checking across border bug
         return true;
     }
 
@@ -225,7 +245,7 @@ function GameState(socket) {
 
 function initializeConnection() {
 
-    var socket = new WebSocket("ws://localhost:3000");
+    var socket = new WebSocket("ws://"+ location.host);
     gs = new GameState(socket);
 
     socket.onmessage = function (event) {
@@ -256,10 +276,16 @@ function initializeConnection() {
         }
 
         if(event.data.substring(0,4) == "shot" ){
-
+            gs.handleShot(parseInt(event.data.substring(4)));
         }
         if(event.data.substring(0,3) == "hit"){
-            
+            gs.handleHit(parseInt(event.data.substring(3)));
+        }
+        if(event.data.substring(0,4) == "miss" ){
+            gs.handleMiss(parseInt(event.data.substring(4)));
+        }
+        if(event.data.substring(0,4)=="sunk"){
+            gs.handleSunk(event.data.substring(4))
         }
 
         console.log("Received:" + event.data);
@@ -278,7 +304,7 @@ function shoot(cellID) {
     var coordinate_y = cellID.substring(1);
 
     var s = coordinate_x + coordinate_y;
-    gs.updateGame(s);
+    gs.updateGame("shot"+s);
 };
 
 
