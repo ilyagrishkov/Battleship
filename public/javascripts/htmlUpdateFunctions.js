@@ -42,7 +42,7 @@ function htmlYourTurn() {
         }
     }
 
-    $("#playerTurnSpan").html("YOU");
+    //$("#playerTurnSpan").html("YOU");
     htmlSetReadyLights(true);
 }
 
@@ -56,7 +56,7 @@ function htmlEndTurn() {
         }
     }
 
-    $("#playerTurnSpan").html("ENEMY");
+    //$("#playerTurnSpan").html("ENEMY");
     htmlSetReadyLights(false);
 
 }

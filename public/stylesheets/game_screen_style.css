@@ -64,7 +64,7 @@ body {
 }
 
 #boatListOther {
-    bottom: 10%;
+    top: 8%;
     right: 2%;
 }
 
@@ -134,9 +134,9 @@ body {
     border-radius: 100px;
     padding: 5px 15px;
     position: absolute;
-    top: 0;
+    top: 2%;
     left: 8%;
-    transform: translate(0, 50%);
+
 }
 
 .readyButton:hover {
