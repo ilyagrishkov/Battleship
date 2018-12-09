@@ -1,6 +1,6 @@
 @font-face {
     font-family: Quicksand;
-    src: url('/fonts/Quicksand-Regular.woff');
+    src: url(/fonts/Quicksand-Regular.woff);
 }
 
 * {
@@ -75,13 +75,13 @@ body {
 
 .gameGridGroup {
     margin: auto;
-    width: 360px;
+    width: 300px;
     height: 100%;
 }
 
 
 .gameGridDivs {
-    margin-top: 20px;
+    margin-top: 30px;
     display: grid;
     grid-template-columns: repeat(11, auto);
     padding: 5px;
@@ -89,12 +89,12 @@ body {
 }
 
 #gameGridOther {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .gameGridHeader {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     border: 1px solid grey;
     text-align: center;
     float: left;
@@ -108,8 +108,8 @@ body {
     border: 1px solid grey;
     background-color: white;
     opacity: 0.55;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     float: left;
 }
 
@@ -186,12 +186,12 @@ body {
     z-index: 10;
 }
 
-.boat{
+.boat {
     display: block;
     padding: 5%;
 }
 
-.orientationButton{
-    height: 20%;
-    width: 20%;
+.orientationButton {
+    height: 15%;
+    width: 15%;
 }
