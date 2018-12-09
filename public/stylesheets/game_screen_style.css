@@ -190,3 +190,8 @@ body {
     display: block;
     padding: 5%;
 }
+
+.orientationButton{
+    height: 20%;
+    width: 20%;
+}

@@ -89,12 +89,35 @@ function GameState(socket) {
                 console.log("Placing ship");
 
                 htmlPlaceShip(cells);
-                htmlDisableShip(gs.boatType);
-                cells.forEach(function(element){
-                    gs.shipCells.push(element);
-                });
+                htmlDisableShip(gs.boatType);// TODO make work
+                gs.addShipToArray(cells,gs.boatType);
                 gs.placedShips.push(gs.boatType);
             }         
+        }
+    }
+    this.addShipToArray= function(cells,boatType){
+        var index = -1;
+        switch(boatType){
+            case 0: //carrier
+                index = 0;
+                break;
+            case 1: //battleship
+                index = 5;
+                break;
+            case 2: //submarine
+                index = 9;
+                break;
+            case 3: //destroyer
+                index = 12;
+                break;
+            case 4: //smallship
+                index = 15;
+                break;    
+            default:
+                break;
+        }
+        for(var i = index; i < cells.length; i++){
+            gs.shipCells[i] = cells[i-index];
         }
     }
 
@@ -154,14 +177,14 @@ function GameState(socket) {
         var possibleShipCells = cells;
         var errorMessage;
 
-        if(boatOrientation == 0 || boatOrientation == 1){//move right
-            if(Math.floor(cells[0]/10)-Math.floor(cells[cells.length-1]/10) != 0){
+        if(boatOrientation == 0 || boatOrientation == 1){//placing horizontally row doesnt change
+            if(Math.floor(cells[0]/10) != Math.floor(cells[cells.length-1]/10)){
                 alert("Ship is too close to the side borders!")
                 return false;
             }
         }
         else if(boatOrientation ==2 || boatOrientation ==3){
-            if(Math.floor(cells[0]%10)-Math.floor(cells[cells.length-1]%10) != 0){
+            if(Math.floor(cells[0]%10) != Math.floor(cells[cells.length-1]%10)){
                 alert("Ship is too close to the top or bottom border!")
                 return false;
             }
@@ -236,8 +259,15 @@ function initializeConnection() {
             gs.yourTurn();
         }
 
-        console.log("Received:" + event.data);
+        if(event.data.substring(0,4) == "shot" ){
 
+        }
+        if(event.data.substring(0,3) == "hit"){
+            
+        }
+
+        console.log("Received:" + event.data);
+    
         socket.onopen = function () {
 
         };
