@@ -92,7 +92,7 @@ body {
 }
 
 .gameGridDivs {
-    margin-top: 40px;
+    margin-top: 30px;
     display: grid;
     grid-template-columns: repeat(11, auto);
     padding: 5px;
