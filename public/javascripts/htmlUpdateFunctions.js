@@ -19,7 +19,7 @@ function htmlClientReady() {
     button.onclick = null;
     button.hidden = true;
 
-    document.getElementById("readyLightClient").src = greenLight;
+    //document.getElementById("readyLightClient").src = greenLight;
 
 }
 
@@ -42,7 +42,6 @@ function htmlYourTurn() {
         }
     }
 
-    //$("#playerTurnSpan").html("YOU");
     htmlSetReadyLights(true);
 }
 
@@ -56,7 +55,6 @@ function htmlEndTurn() {
         }
     }
 
-    //$("#playerTurnSpan").html("ENEMY");
     htmlSetReadyLights(false);
 
 }
@@ -130,9 +128,9 @@ function htmlMissCell(cellID) {
 }
 
 function htmlVictory() {
-
+    finalScreen("You won!");
 }
 
 function htmlLost() {
-
+    finalScreen("You lost!");
 }

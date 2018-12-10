@@ -10,6 +10,7 @@
 body {
     font-family: Quicksand;
     margin: 0;
+    text-align: center;
 }
 
 .container {
@@ -77,11 +78,37 @@ body {
     margin: auto;
     width: 300px;
     height: 100%;
+    animation: fadein 2s;
 }
 
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
 
 .gameGridDivs {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(11, auto);
+    padding: 5px;
+
+}
+
+.gameGridDivs:not(:fullscreen) {
     margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(11, auto);
+    padding: 5px;
+
+}
+
+.gameGridDivs:fullscreen {
+    margin-top: 40px;
     display: grid;
     grid-template-columns: repeat(11, auto);
     padding: 5px;
@@ -159,7 +186,7 @@ body {
 
 }
 
-#disconnection_container {
+#final_screen_container {
     position: fixed;
     width: 100%;
     top: 20px;
@@ -167,14 +194,14 @@ body {
     z-index: 11;
 }
 
-#disconnection {
+#final_screen {
     font-size: 300%;
     font-weight: 300%;
     display: none;
     z-index: 12;
 }
 
-#disconnected_screen_background {
+#final_screen_background {
     top: 0;
     left: 0;
     background-color: white;
@@ -194,4 +221,33 @@ body {
 .orientationButton {
     height: 15%;
     width: 15%;
+}
+
+#media {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    color: white;
+    display: none;
+    background-color: white;
+    opacity: 0.7;
+    z-index: 20;
+}
+
+#media p {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 300%;
+    visibility: visible;
+    z-index: 21;
+}
+
+@media (max-width: 1280px),
+(max-height: 800px) {
+    #media {
+        display: block;
+    }
 }

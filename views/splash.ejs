@@ -12,6 +12,9 @@
 </head>
 
 <body>
+    <div id="media">
+        <p>Resolution is below recommended level!</p>
+    </div>
     <div class="container">
         <header>
             <img id="game_logo" src="/images/logo_wp.png" height="100" width="100">
@@ -25,17 +28,22 @@
         </section>
         <div id="waiting">Waiting for the second player...</div>
         <footer>
-            <%= gamesInitialized %>
-            <%if (gamesInitialized != 1) { %>
-            games
-            <% } else { %>
-            game
-            <% } %>
-            initialized,
-            <%= gamesAborted %>
-            aborted,
-            <%= gamesCompleted %>
-            completed
+            <p id="stats">
+                <%= gamesInitialized %>
+                <%if (gamesInitialized != 1) { %>
+                games
+                <% } else { %>
+                game
+                <% } %>
+                initialized,
+                <%= gamesAborted %>
+                aborted,
+                <%= gamesCompleted %>
+                completed
+            </p>
+            <p id="lastVisit">
+                <%= lastVisit %>
+            </p>
         </footer>
     </div>
 

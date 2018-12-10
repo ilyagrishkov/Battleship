@@ -15,19 +15,28 @@ body {
 
 .container {
     position: fixed;
-    background-image: url(/images/michael-afonso-419936-unsplash.jpg);
+    width: 100%;
+    height: 100%;
+}
+
+.container::before {
+	background-image: url(/images/michael-afonso-419936-unsplash.jpg);
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     width: 100%;
     height: 100%;
     opacity: 0.97;
+    display: block;
+    content: "";
+    z-index: -3;
 }
 
 #game_logo {
     position: absolute;
     left: 50px;
     top: 50px;
+    animation: fadein 2s;
 }
 
 #game_name {
@@ -36,6 +45,17 @@ body {
     top: 70px;
     left: 170px;
     font-size: 300%;
+    animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .control_element_play,
@@ -76,9 +96,48 @@ body {
 }
 
 footer {
-    position: fixed;
-    bottom: 2%;
     color: white;
-    right: 2%;
     opacity: 0.8;
+}
+
+#stats {
+    position: absolute;
+    bottom: 5%;
+    right: 2%;
+    margin-bottom: 0;
+}
+
+#lastVisit {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    margin-bottom: 0;
+}
+
+#media {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    color: white;
+    display: none;
+    background-color: white;
+    opacity: 0.7;
+    z-index: 20;
+}
+
+#media p {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 300%;
+    visibility: visible;
+    z-index: 21;
+}
+
+@media (max-width: 1280px), (max-height: 800px) {
+    #media {
+	display: block;
+}
 }
