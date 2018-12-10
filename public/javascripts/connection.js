@@ -34,9 +34,16 @@ function GameState(socket) {
     }
     this.clientReady = function () {
 
-        if (gs.placedShips.length==5) {
+        if (gs.placedShips.length == 5) {
             htmlClientReady();
             //Check enough boats are available
+            for (var i = 0; i < 10; i++) {
+
+                for (var k = 0; k < 10; k++) {
+                    var cell = i.toString() + k.toString();
+                    $("#" + cell + "c").attr('onclick', '');
+                }
+            }
             this.updateGame("Ready")
         } else {
             alert("You havent placed all your ships yet!");
@@ -102,24 +109,24 @@ function GameState(socket) {
         var cellIDs = new Array();
         cells.forEach(function (element) {
             cellIDs.push(gs.cellIntToID(element));
-            for(var i = -1;i<2;i++){//set miss loop
-                for(var j = -1; j<2;j++){
+            for (var i = -1; i < 2; i++) { //set miss loop
+                for (var j = -1; j < 2; j++) {
 
-                    var cell = element+(i+j*10)
-                    if(element%10 == 0 && i == -1){//stops color on left if in first column
+                    var cell = element + (i + j * 10)
+                    if (element % 10 == 0 && i == -1) { //stops color on left if in first column
                         continue;
                     }
-                    if(cell < 100 && cell > -1){//fix miss coming from side
-                            htmlMissCell(gs.cellIntToID(cell));
+                    if (cell < 100 && cell > -1) { //fix miss coming from side
+                        htmlMissCell(gs.cellIntToID(cell));
                     }
-                    if(cell%10 ==9&&j==1){//stops loop if reached right side
+                    if (cell % 10 == 9 && j == 1) { //stops loop if reached right side
                         i = 100;
                     }
                 }
-               
+
             }
 
-            
+
         })
 
 
@@ -131,6 +138,10 @@ function GameState(socket) {
     this.handleGG = function () {
         htmlVictory();
     }
+
+    //    this.handleYouLost = function () {
+    //        finalScreen("You Lost!");
+    //    }
 
     this.cellIntToID = function (cell) {
         if (cell < 10) {
@@ -263,29 +274,29 @@ function GameState(socket) {
     this.sinkShip = function (boat) {
 
         var cellIDs = new Array(); //array of cell ids for htmlFunction
-                
-        boat.forEach(function(element){
-            cellIDs.push(gs.cellIntToID(element)+"c");
 
-            for(var i = -1;i<2;i++){//set miss loop
-                for(var j = -1; j<2;j++){
+        boat.forEach(function (element) {
+            cellIDs.push(gs.cellIntToID(element) + "c");
 
-                    var cell = element+(i+j*10)
-                    if(element%10 == 0 && i == -1){//stops color on left if in first column
+            for (var i = -1; i < 2; i++) { //set miss loop
+                for (var j = -1; j < 2; j++) {
+
+                    var cell = element + (i + j * 10)
+                    if (element % 10 == 0 && i == -1) { //stops color on left if in first column
                         continue;
                     }
-                    if(cell < 100 && cell > -1){//fix miss coming from side
-                            htmlMissCell(gs.cellIntToID(cell)+ "c");
+                    if (cell < 100 && cell > -1) { //fix miss coming from side
+                        htmlMissCell(gs.cellIntToID(cell) + "c");
                     }
-                    if(cell%10 ==9&&j==1){//stops loop if reached right side
+                    if (cell % 10 == 9 && j == 1) { //stops loop if reached right side
                         i = 100;
                     }
                 }
-               
+
             }
         });
 
-       
+
 
 
         htmlSunkShip(cellIDs);
@@ -396,18 +407,18 @@ function GameState(socket) {
 
                 var cell = cellID + (i + 10 * j);
 
-                if(cellID%10 == 0 && i == -1){//stops check on left if in first column
+                if (cellID % 10 == 0 && i == -1) { //stops check on left if in first column
                     continue;
                 }
-   
-                if(cell> 0 && cell<99){ //Fixed thanks to a bug ;)
+
+                if (cell > 0 && cell < 99) { //Fixed thanks to a bug ;)
                     if (gs.shipCells.includes(cell)) {
                         console.log("Returned false checking: " + cell)
                         return false;
                     }
                 }
             }
-            if(cell%10 ==9&&j==1){//stops loop if reached right side
+            if (cell % 10 == 9 && j == 1) { //stops loop if reached right side
                 i = 100;
             }
         } //TODO: fix checking across border bug
@@ -431,7 +442,7 @@ function initializeConnection() {
     socket.onmessage = function (event) {
 
         if (event.data == "otherPlayerDisconnected") {
-            disconnection();
+            finalScreen("Your enemy has disconnected!");
             socket.close();
         } else if (event.data == "2 JOINT") {
             startGame();
@@ -439,9 +450,7 @@ function initializeConnection() {
             waitForSecondPlayer();
         } else if (event.data == "endTurn") {
             gs.clientEndTurn();
-        }
-
-        else if (event.data == "BOTH READY") {
+        } else if (event.data == "BOTH READY") {
 
             gs.beginGame();
         } else if (event.data == "yourTurn") {
@@ -456,6 +465,8 @@ function initializeConnection() {
             gs.handleMiss(parseInt(event.data.substring(4)));
         } else if (event.data == "gg") {
             gs.handleGG();
+            gs.updateGame("youLost");
+            gameStatus.gamesCompleted++;
         } else if (JSON.parse(event.data).id == "sunk") {
             console.log("received sunk");
             gs.handleSunk(JSON.parse(event.data).boat);
@@ -470,8 +481,6 @@ function initializeConnection() {
 }
 
 function shoot(cellID) {
-    //Here should be shot validation code
-
 
     var coordinate_x = cellID.substring(0, 1);
     var coordinate_y = cellID.substring(1);

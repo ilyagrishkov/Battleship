@@ -19,7 +19,7 @@ function htmlClientReady() {
     button.onclick = null;
     button.hidden = true;
 
-    document.getElementById("readyLightClient").src = greenLight;
+    //document.getElementById("readyLightClient").src = greenLight;
 
 }
 
@@ -41,8 +41,6 @@ function htmlYourTurn() { //WORK ON THIS
             $("#" + cell).attr('onclick', 'shoot(this.id)');
         }
     }
-    //$("#gameGridDivsOther").find('*').attr("onclick", null);
-    $("#playerTurnSpan").html("YOU");
     htmlSetReadyLights(true);
 }
 
@@ -55,8 +53,6 @@ function htmlEndTurn() {
             $("#" + cell).attr('onclick', 'shoot(this.id)');
         }
     }
-    //disableChildren($("#gameGridDivsOther")); //try to disable all children when this is called
-    $("#playerTurnSpan").html("ENEMY");
     htmlSetReadyLights(false);
 
 }
@@ -129,10 +125,10 @@ function htmlMissCell(cellID) {
 
 }
 
-function htmlVictory(){
-
+function htmlVictory() {
+    finalScreen("You won!");
 }
 
-function htmlLost(){
-
+function htmlLost() {
+    finalScreen("You lost!");
 }

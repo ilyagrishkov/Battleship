@@ -4,6 +4,10 @@ var websocket = require("ws");
 var Game = require("./game");
 var gameStatus = require("./statTracker");
 
+var cookies = require("cookie-parser");
+var sessions = require("express-session");
+var credentials = require("./credentials");
+
 var port = 3000;
 var app = express();
 
@@ -13,11 +17,35 @@ app.set("view engine", "ejs");
 
 app.use(express.static(__dirname + "/public"));
 
+app.use(cookies(credentials.cookieSecret));
+var sessionConfiguration = {
+
+    secret: credentials.cookieSecret,
+    resave: false,
+    saveUninitialized: true,
+};
+app.use(sessions(sessionConfiguration));
+
 app.get("/", (req, res) => {
+
+    var session = req.session;
+    var sissionRes;
+
+    if (session.views) {
+        session.views++;
+        sessionRes = "You have been here " + session.views + " times (last visit: " + session.lastVisit + ")";
+        session.lastVisit = new Date().toLocaleDateString();
+    } else {
+        session.views = 1;
+        session.lastVisit = new Date().toLocaleDateString();
+        sessionRes = "This is your first visit!";
+    }
+
     res.render("splash.ejs", {
         gamesInitialized: gameStatus.gamesInitialized,
         gamesAborted: gameStatus.gamesAborted,
-        gamesCompleted: gameStatus.gamesCompleted
+        gamesCompleted: gameStatus.gamesCompleted,
+        lastVisit: sessionRes
     });
 });
 
@@ -55,6 +83,10 @@ wss.on("connection", function (ws) {
     }
 
     con.on("message", function incoming(message) {
+        if (message == "gg") {
+            gameStatus.gamesCompleted++;
+            gameStatus.gamesAborted--;
+        }
 
         if (message == "Ready") {
             let gameObj = websockets[con.id];

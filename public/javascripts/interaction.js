@@ -18,9 +18,10 @@ function startGame() {
 };
 
 
-function disconnection() {
-    $("#disconnection").fadeIn(500);
-    $("#disconnected_screen_background").fadeIn(500).delay(3000).queue(function () {
+function finalScreen(msg) {
+    $("#final_screen").html(msg);
+    $("#final_screen").fadeIn(500);
+    $("#final_screen_background").fadeIn(500).delay(3000).queue(function () {
         window.location.replace("/");
     });
 };
