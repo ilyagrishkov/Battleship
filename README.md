@@ -1,6 +1,7 @@
 # <div align="center"> BATTLESHIPS </div>
 
-<div align="center"> Battleships - one of the most popular strategy games in the world. Arrange ships, wait for opponent and start playing. </div>
+<div align="center"> Battleships - one of the most popular strategy games in the world. Arrange ships, wait for opponent and start playing. </div> 
+<br/>
 
 ## <div align="center"> OVERVIEW </div>
 
