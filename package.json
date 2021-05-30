@@ -540,7 +540,7 @@
       "resolved": "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz",
       "version": "1.1.2"
     },
-    "ws": "^6.1.2"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "express": "^4.16.4"
