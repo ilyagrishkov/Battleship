@@ -543,6 +543,6 @@
     "ws": "^6.1.2"
   },
   "devDependencies": {
-    "express": "^4.16.4"
+    "express": "^4.17.3"
   }
 }
